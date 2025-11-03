@@ -1,4 +1,3 @@
-
 const LEDGE_COLOUR = color(255, 204, 0);
 const LEDGE_HEIGHT = 20;
 
