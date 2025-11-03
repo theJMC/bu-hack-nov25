@@ -7,25 +7,26 @@ const VINE_LENGTH = 150;
  * The player will be able to walk/jump into them
  * And they will slow the players movement
  */
-
-class Vine {
+class Vine extends Obstacle {
   constructor(x, y) {
-    this.x = x
-    this.y = y
+    super(x, y);
   }
+
   draw() {
     // draw a rectangle at x,y coordinates
     fill(VINE_COLOUR)
     noStroke();
     rect(this.x, this.y, this.x + VINE_LENGTH, this.y + VINE_HEIGHT)
   }
-  move(speed) {
-    this.x - speed
-  }
-  isOffScreen() {
-    if (this.x + VINE_LENGTH <= 0) {
-        // whole vine will be off the screen
-        return true
+
+  collidesWith(player) {
+    if (super.collidesWith(player, this.length, this.height)) {
+      // player.speed is lowered
+      return true;
     }
+  }
+
+  isOffScreen() {
+    return super.isOffScreen(VINE_LENGTH);
   }
 }
