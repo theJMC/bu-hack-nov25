@@ -6,10 +6,10 @@ const LEDGE_HEIGHT = 20;
  */
 
 class Ledge {
-  constructor(x, y, length) {
+  constructor(x, y) {
     this.x = x
     this.y = y
-    this.length = length
+    this.length = random(100, 300)
   }
   draw() {
     // draw a rectangle at x,y coordinates

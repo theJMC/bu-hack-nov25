@@ -15,7 +15,7 @@ class Spike {
     this.length = SPIKE_LENGTH * this.a
   }
   draw() {
-    // draw a rectangle at x,y coordinates
+    // draw a set of triangles starting at x,y coordinates
     fill(SPIKE_COLOUR)
     noStroke();
     for (let a = 0; a < this.a; a++) {
@@ -28,7 +28,7 @@ class Spike {
   }
   isOffScreen() {
     if (this.x + this.length <= 0) {
-        // whole ledge will be off the screen
+        // whole spike section will be off the screen
         return true
     }
   }
