@@ -13,7 +13,7 @@ async def get():
         return HTMLResponse(f.read())
 
 @app.get("/chat")
-async def get():
+async def get_chat():
     """ Send the pure HTML to the client """
     with open("templates/chat.html") as f:
         return HTMLResponse(f.read())
@@ -38,17 +38,17 @@ async def websocket_endpoint(websocket: WebSocket, game_id: str, name: str):
         await websocket.accept()
         await websocket.send_text("Game not found")
         await websocket.close()
+        print("=== GAME NOT FOUND ===")
         return
     await ConMan.connect(websocket, name)
-    await ConMan.broadcast(f"Client {name} joined the chat")
+    await ConMan.broadcast(f"{name} joined the chat")
     try:
         while True:
             data = await websocket.receive_text()
-            await ConMan.send_personal_message(f"You wrote: {data}", websocket)
-            await ConMan.broadcast(f"Client {name} says: {data}")
+            await ConMan.broadcast(f"{name}: {data}")
     except WebSocketDisconnect:
         ConMan.disconnect(websocket)
-        await ConMan.broadcast(f"Client {name} left the chat")
+        await ConMan.broadcast(f"{name} left the chat")
 
 
 

@@ -18,7 +18,7 @@
             document.getElementById('game-id').innerText = game_id;
             var name = localStorage.getItem('name');
             document.getElementById('name').innerText = name;
-            var ws = new WebSocket(`ws://100.64.0.2:8000/ws/${game_id}/${name}`);
+            var ws = new WebSocket(`wss://james-mbp-16.tail6d16d1.ts.net/ws/${game_id}/${name}`);
             ws.onmessage = function(event) {
                 var messages = document.getElementById('messages')
                 var message = document.createElement('li')

@@ -27,7 +27,7 @@
                   document.getElementById("game-code").innerHTML = game["game_id"]
                   var game_code = localStorage.getItem("game_code");
                   console.log(game_code)
-                  var ws = new WebSocket(`ws://100.64.0.2:8000/ws/${game_code}/Host`);
+                  var ws = new WebSocket(`wss://james-mbp-16.tail6d16d1.ts.net/ws/${game_code}/Host`);
                   ws.onmessage = (e) => {
                       var messages = document.getElementById('messages')
                       var message = document.createElement('li')
