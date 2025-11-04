@@ -24,7 +24,7 @@
             window.location.href = `/host`;
         }
         function joinChat() {
-            const gameId = document.getElementById("input-game-id").value;
+            const gameId = document.getElementById("input-game-id").value.toLowerCase();
             localStorage.setItem("gameId", gameId);
             window.location.href = `/chat`;
         }

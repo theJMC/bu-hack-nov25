@@ -9,36 +9,60 @@
             <h1>Game Controller</h1>
             <h2>Game ID: <span id="game-id"></span></h2>
             <h2>Player: <span id="player-number"></span></h2>
-            <button class="btn btn-primary" onclick="sendEvent('jump')">JUMP</button>
-            <button class="btn btn-primary" onclick="sendEvent('slide')">SLIDE</button>
-            <button class="btn btn-primary" onclick="sendEvent('shake')">SHAKE</button>
+            <div class="d-grid gap-2" id="controls">
+                <button class="btn btn-primary" onclick="sendEvent('jump')">JUMP</button>
+                <button class="btn btn-primary" onclick="sendEvent('slide')">SLIDE</button>
+                <button class="btn btn-primary" onclick="sendEvent('shake')">SHAKE</button>
+            </div>
+            <br>
+            <br>
+            <div class="alert alert-danger" role="alert" id="errMsgBox" hidden>
+
+            </div>
+            <ul id='messages'>
+            </ul>
         </div>
 
-        <ul id='messages'>
-        </ul>
         <script>
             var game_id = localStorage.getItem('gameId');
             document.getElementById('game-id').innerText = game_id;
             var ws = new WebSocket(`wss://${window.location.hostname}/ws/${game_id}/player`);
             ws.onmessage = function(event) {
+                var newMsg = (msgContent) => {
+                        var messages = document.getElementById('messages')
+                        var message = document.createElement('li')
+                        var content = document.createTextNode(msgContent)
+                        message.appendChild(content)
+                        messages.appendChild(message)
+                    }
+                var errorMsg = (msgContent) => {
+                    var msgBox = document.getElementById('errMsgBox')
+                    var controlsDiv = document.getElementById('controls')
+                    msgBox.appendChild(document.createTextNode(msgContent))
+                    msgBox.hidden = false
+                    controlsDiv.style.display = 'none';
+                }
                 const msg = JSON.parse(event.data);
                 switch (msg["code"]) {
+
                     case 201:
                         document.getElementById('player-number').innerText = msg["playerNum"]
                         document.body.style.backgroundColor = msg["colour"]
                         break;
+                    case 202:
+                        newMsg(`${msg.code}-${msg.action}-${msg.intensity}`)
+                        break;
+                    case 404:
+                        errorMsg(msg["content"])
+                        break;
                     default:
-                        var messages = document.getElementById('messages')
-                        var message = document.createElement('li')
-                        var content = document.createTextNode(`${msg.code}-${msg.content}`)
-                        message.appendChild(content)
-                        messages.appendChild(message)
+                        newMsg(msg["content"])
                 }
             };
             
             function sendEvent(event) {
-                ws.send(JSON.stringify({"code": 200, "content": event}))
-                event.preventDefault()
+                var send = {"code": 202, "action": event, "intensity": 1, "timestamp": Date.now()}
+                ws.send(JSON.stringify(send))
             }
         </script>
     </body>
