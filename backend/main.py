@@ -28,11 +28,11 @@ async def host_page():
         return HTMLResponse(f.read())
 
 
-# @app.get("/admin")
-# async def admin_page():
-#     """ Send the pure HTML to the client """
-#     with open("templates/admin.html") as f:
-#         return HTMLResponse(f.read())
+@app.get("/admin")
+async def admin_page():
+    """ Send the pure HTML to the client """
+    with open("templates/admin.html") as f:
+        return HTMLResponse(f.read())
 
 
 @app.websocket("/ws/{game_id}/{mode}")
@@ -92,6 +92,14 @@ async def new_game():
 async def get_game(game_id: str):
     game = await GameMan.get_game(game_id)
     return {"game_id": game.game_id, "name": game.name}
+
+
+@app.delete("/game/{game_id}")
+async def delete_game(game_id: str):
+    game = await GameMan.get_game(game_id)
+    await game.ConMan.broadcast({"code": 404, "content": "The Game has been Closed!"})
+    await GameMan.delete_game(game_id)
+    return {"game_id": game_id}
 
 
 @app.get("/game")

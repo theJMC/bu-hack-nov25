@@ -11,6 +11,22 @@
         <h1>New Game</h1>
         <button class="btn btn-success" onclick="newGame()">New Game</button>
         <h2>Game List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Game ID</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="game-list-body">
+                <tr>
+                    <th>{ID}</th>
+                    <td><button class="btn btn-primary">Join</button></td>
+                    <td><button class="btn btn-danger">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
         <ul id="game-list"></ul>
         <button class="btn btn-secondary" onclick="refreshGames()">Refresh</button>
         <hr>
@@ -27,26 +43,70 @@
           req.send();
           req.onreadystatechange = function() {
               if (req.readyState == 4 && req.status == 200) {
-                  var game = JSON.parse(req.responseText);
-                  var li = document.createElement("li");
-                  li.innerHTML = game["game_id"];
-                  document.getElementById("game-list").appendChild(li);
+                  refreshGames();
               }
           }
       }
       function refreshGames() {
+          var newGameRow = (gameID) => {
+            var tableRow = document.createElement("tr");
+
+            var idCell = document.createElement("th");
+            var idCellText = document.createTextNode(gameID);
+            idCell.appendChild(idCellText);
+
+            var joinCell = document.createElement("td");
+            var joinPlayerCellButton = document.createElement("button");
+            joinPlayerCellButton.className = "btn btn-primary";
+            joinPlayerCellButton.innerText = "Join: Player";
+            joinPlayerCellButton.onclick = () => {
+                localStorage.setItem("gameId", gameID);
+                window.location.href = "/chat";
+            }
+            joinCell.appendChild(joinPlayerCellButton);
+
+            var joinHostCellButton = document.createElement("button");
+            joinHostCellButton.className = "btn btn-primary";
+            joinHostCellButton.innerText = "Join: Host";
+            joinHostCellButton.onclick = () => {
+                localStorage.setItem("gameId", gameID);
+                window.location.href = "/host";
+            }
+            joinCell.appendChild(joinHostCellButton);
+
+            var deleteCell = document.createElement("td");
+            var deleteCellButton = document.createElement("button");
+            deleteCellButton.className = "btn btn-danger";
+            deleteCellButton.innerText = "Delete";
+            deleteCellButton.onclick = () => {
+                var req = new XMLHttpRequest();
+                req.open("DELETE", "/game/" + gameID, true);
+                req.send();
+                req.onreadystatechange = function() {
+                    if (req.readyState == 4 && req.status == 200) {
+                        console.log(req.responseText);
+                        refreshGames();
+                    }
+                }
+            }
+            deleteCell.appendChild(deleteCellButton);
+
+            tableRow.appendChild(idCell);
+            tableRow.appendChild(joinCell);
+            tableRow.appendChild(deleteCell);
+            document.getElementById("game-list-body").appendChild(tableRow);
+
+          }
           var req = new XMLHttpRequest();
           req.open("GET", "/game", true);
           req.send();
           req.onreadystatechange = function() {
               if (req.readyState == 4 && req.status == 200) {
                   var games = JSON.parse(req.responseText);
-                  var ul = document.getElementById("game-list");
-                  ul.innerHTML = "";
+                  var tableBody = document.getElementById("game-list-body");
+                  tableBody.innerHTML = "";
                   for (var i = 0; i < games.length; i++) {
-                      var li = document.createElement("li");
-                      li.innerHTML = games[i]["game_id"];
-                      ul.appendChild(li);
+                      newGameRow(games[i]["game_id"]);
                   }
               }
           }
