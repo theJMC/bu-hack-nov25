@@ -10,6 +10,7 @@ export interface GestureData {
 export interface SensorData {
   accelerationX: number
   accelerationY: number
+  accelerationZ: number
   rotationAlpha: number
   rotationBeta: number
   rotationGamma: number
@@ -25,6 +26,7 @@ export function useGestureDetection() {
   const sensorData = ref<SensorData>({
     accelerationX: 0,
     accelerationY: 0,
+    accelerationZ: 0,
     rotationAlpha: 0,
     rotationBeta: 0,
     rotationGamma: 0,
@@ -42,6 +44,7 @@ export function useGestureDetection() {
 
   // Improved gesture detection with consistent timing
   const gestureThreshold = 120 // Degrees per second (more predictable than frame-based)
+  const shakeThreshold = 15 // m/s² threshold for shake detection
   const gestureTimeoutMs = 500 // Minimum time between gestures
   const confidenceThreshold = 0.6 // Lower for more responsive detection
   let lastGestureTime = 0
@@ -49,6 +52,9 @@ export function useGestureDetection() {
   // Consistent velocity tracking with fixed time window
   const velocityWindow = 80 // 80ms window for velocity calculation
   let orientationHistory: Array<{ beta: number, gamma: number, timestamp: number }> = []
+  
+  // Shake detection for horizontal shake gesture (X-Y plane)
+  let accelerationHistory: Array<{ x: number, y: number, z: number, timestamp: number }> = []
   
   // Jump state
   let jumpIntensity = 0
@@ -72,19 +78,23 @@ export function useGestureDetection() {
     if (history.length < 2) return { betaVel: 0, gammaVel: 0 }
     
     // Use consistent time window - find reading closest to velocityWindow ms ago
-    const now = history[history.length - 1].timestamp
+    const currentReading = history[history.length - 1]
+    if (!currentReading) return { betaVel: 0, gammaVel: 0 }
+    
+    const now = currentReading.timestamp
     const targetTime = now - velocityWindow
     
     let baseReading = history[0]
     for (const reading of history) {
-      if (reading.timestamp <= targetTime) {
+      if (reading && reading.timestamp <= targetTime) {
         baseReading = reading
       } else {
         break
       }
     }
     
-    const currentReading = history[history.length - 1]
+    if (!baseReading || !currentReading) return { betaVel: 0, gammaVel: 0 }
+    
     const timeDiff = currentReading.timestamp - baseReading.timestamp
     
     if (timeDiff <= 0) return { betaVel: 0, gammaVel: 0 }
@@ -98,7 +108,6 @@ export function useGestureDetection() {
 
   // Improved confidence calculation based on actual velocity consistency
   const calculateGestureConfidence = (
-    direction: 'up' | 'down' | 'left' | 'right', 
     primaryVelocity: number,
     secondaryVelocity: number
   ): number => {
@@ -117,6 +126,28 @@ export function useGestureDetection() {
     return finalConfidence
   }
 
+  // Calculate shake intensity from acceleration data
+  const calculateShakeIntensity = (history: typeof accelerationHistory): number => {
+    if (history.length < 3) return 0
+    
+    let maxAcceleration = 0
+    
+    // Analyze recent acceleration spikes in X-Y plane only (horizontal shaking)
+    for (let i = 1; i < history.length; i++) {
+      const reading = history[i]
+      if (!reading) continue
+      
+      // Calculate horizontal acceleration magnitude (X-Y plane only, excluding Z)
+      const horizontalAccel = Math.sqrt(reading.x * reading.x + reading.y * reading.y)
+      
+      if (horizontalAccel > shakeThreshold) {
+        maxAcceleration = Math.max(maxAcceleration, horizontalAccel)
+      }
+    }
+    
+    return maxAcceleration
+  }
+
   // Streamlined gesture detection
   const detectTiltGestures = (betaVel: number, gammaVel: number, timestamp: number) => {
     // Prevent gesture spam
@@ -132,51 +163,16 @@ export function useGestureDetection() {
     
     let detectedGesture: GestureData | null = null
     
-    // Check each gesture direction
-    if (betaVel < -gestureThreshold) {
-      // Tilt forward/up = Slam
-      const confidence = calculateGestureConfidence('up', betaVel, gammaVel)
+    // Check shake gesture for general shake
+    const shakeIntensity = calculateShakeIntensity(accelerationHistory)
+    
+    if (shakeIntensity > shakeThreshold) {
+      // Device shake = Shake action
+      const intensity = Math.min(100, (shakeIntensity / shakeThreshold) * 60)
+      const confidence = Math.min(1.0, shakeIntensity / (shakeThreshold * 1.5))
       if (confidence >= confidenceThreshold) {
-        const intensity = Math.min(100, (Math.abs(betaVel) / gestureThreshold) * 60) // Scale to reasonable range
         detectedGesture = { 
-          action: 'Slam', 
-          intensity: Math.round(intensity), 
-          timestamp,
-          confidence: Math.round(confidence * 100)
-        }
-      }
-    } else if (betaVel > gestureThreshold) {
-      // Tilt backward/down = Jump
-      const confidence = calculateGestureConfidence('down', betaVel, gammaVel)
-      if (confidence >= confidenceThreshold) {
-        const intensity = Math.min(100, (Math.abs(betaVel) / gestureThreshold) * 60)
-        triggerJump(intensity)
-        detectedGesture = { 
-          action: 'Jump', 
-          intensity: Math.round(intensity), 
-          timestamp,
-          confidence: Math.round(confidence * 100)
-        }
-      }
-    } else if (gammaVel < -gestureThreshold) {
-      // Tilt left = Dash Left
-      const confidence = calculateGestureConfidence('left', gammaVel, betaVel)
-      if (confidence >= confidenceThreshold) {
-        const intensity = Math.min(100, (Math.abs(gammaVel) / gestureThreshold) * 60)
-        detectedGesture = { 
-          action: 'Dash Left', 
-          intensity: Math.round(intensity), 
-          timestamp,
-          confidence: Math.round(confidence * 100)
-        }
-      }
-    } else if (gammaVel > gestureThreshold) {
-      // Tilt right = Dash Right
-      const confidence = calculateGestureConfidence('right', gammaVel, betaVel)
-      if (confidence >= confidenceThreshold) {
-        const intensity = Math.min(100, (Math.abs(gammaVel) / gestureThreshold) * 60)
-        detectedGesture = { 
-          action: 'Dash Right', 
+          action: 'Shake', 
           intensity: Math.round(intensity), 
           timestamp,
           confidence: Math.round(confidence * 100)
@@ -184,9 +180,39 @@ export function useGestureDetection() {
       }
     }
     
+    // Check tilt gestures for slam/jump only if no shake detected
+    if (!detectedGesture) {
+      if (betaVel < -gestureThreshold) {
+        // Tilt forward/up = Slam
+        const confidence = calculateGestureConfidence(betaVel, gammaVel)
+        if (confidence >= confidenceThreshold) {
+          const intensity = Math.min(100, (Math.abs(betaVel) / gestureThreshold) * 60) // Scale to reasonable range
+          detectedGesture = { 
+            action: 'Slam', 
+            intensity: Math.round(intensity), 
+            timestamp,
+            confidence: Math.round(confidence * 100)
+          }
+        }
+      } else if (betaVel > gestureThreshold) {
+        // Tilt backward/down = Jump
+        const confidence = calculateGestureConfidence(betaVel, gammaVel)
+        if (confidence >= confidenceThreshold) {
+          const intensity = Math.min(100, (Math.abs(betaVel) / gestureThreshold) * 60)
+          triggerJump(intensity)
+          detectedGesture = { 
+            action: 'Jump', 
+            intensity: Math.round(intensity), 
+            timestamp,
+            confidence: Math.round(confidence * 100)
+          }
+        }
+      }
+    }
+    
     // Handle detected gesture
     if (detectedGesture) {
-      console.log(`🎯 ${detectedGesture.action}! Velocity: ${detectedGesture.action.includes('Slam') || detectedGesture.action.includes('Jump') ? betaVel.toFixed(1) : gammaVel.toFixed(1)}°/s, Intensity: ${detectedGesture.intensity}%, Confidence: ${detectedGesture.confidence}%`)
+      console.log(`🎯 ${detectedGesture.action}! Intensity: ${detectedGesture.intensity}%, Confidence: ${detectedGesture.confidence}%`)
       
       currentAction.value = `${detectedGesture.action} (${detectedGesture.confidence}%)`
       actionIntensity.value = detectedGesture.intensity
@@ -208,8 +234,22 @@ export function useGestureDetection() {
 
   const handleDeviceMotion = (event: DeviceMotionEvent) => {
     if (event.acceleration) {
-      sensorData.value.accelerationX = event.acceleration.x || 0
-      sensorData.value.accelerationY = event.acceleration.y || 0
+      const timestamp = Date.now()
+      const accelX = event.acceleration.x || 0
+      const accelY = event.acceleration.y || 0
+      const accelZ = event.acceleration.z || 0
+      
+      sensorData.value.accelerationX = accelX
+      sensorData.value.accelerationY = accelY
+      sensorData.value.accelerationZ = accelZ
+      
+      // Store acceleration history for shake detection
+      accelerationHistory.push({ x: accelX, y: accelY, z: accelZ, timestamp })
+      
+      // Keep only recent acceleration data (500ms window for shake detection)
+      const maxAge = 500
+      const cutoffTime = timestamp - maxAge
+      accelerationHistory = accelerationHistory.filter(h => h.timestamp >= cutoffTime)
     }
   }
 

@@ -43,9 +43,9 @@ const calibrateDevice = () => {
 
 // Test function for debugging
 const testAction = () => {
-  gestureDetection.currentAction.value = 'Test Jump'
+  gestureDetection.currentAction.value = 'Test Shake'
   gestureDetection.actionIntensity.value = 75
-  webSocket.sendActionData({ action: 'Test Jump', intensity: 75, timestamp: Date.now() })
+  webSocket.sendActionData({ action: 'Test Shake', intensity: 75, timestamp: Date.now(), confidence: 85 })
   console.log('🧪 Test action triggered')
   
   setTimeout(() => {
@@ -230,9 +230,8 @@ onUnmounted(() => {
         <p>📱 <strong>Tilt</strong> to move the dot around</p>
         <p>💥 <strong>Quick Tilt Up</strong> to slam</p>
         <p>🦘 <strong>Quick Tilt Down</strong> to make the dot jump</p>
-        <p>⬅️ <strong>Quick Tilt Left</strong> to dash left</p>
-        <p>➡️ <strong>Quick Tilt Right</strong> to dash right</p>
-        <p>✨ <strong>Intensity (0-100)</strong> based on tilt speed</p>
+        <p>🤝 <strong>Shake Device Horizontally</strong> to trigger shake action</p>
+        <p>✨ <strong>Intensity (0-100)</strong> based on movement speed</p>
         <br>
         <p>🎯 Use "Calibrate" to reset the center position</p>
         <p>📊 Real-time sensor data shown on canvas</p>
