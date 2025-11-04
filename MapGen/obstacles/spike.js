@@ -1,25 +1,38 @@
-const SPIKE_COLOUR = color(255, 204, 0);
+let SPIKE_COLOUR;
 const SPIKE_LENGTH = 20;
 const SPIKE_HEIGHT = SPIKE_LENGTH / 4;
 
 /**
  * Spikes are danger to the player
- * The amount of spikes will be randomised upon generation (2-5)
+ * The amount of spikes will be randomised upon generation (1–4)
  */
 class Spike extends Obstacle {
   constructor(x, y) {
     super(x, y);
-    this.a = int(random(2, 6));
-    this.length = SPIKE_LENGTH * this.a;
+
+    this._initialized = false;
+    this.count = 0;
+    this.length = 0;
     this.height = SPIKE_HEIGHT;
   }
 
+  init() {
+    SPIKE_COLOUR = SPIKE_COLOUR || color(255, 204, 0);
+    this.fillColor = color(200, 40, 40);
+    this.strokeColor = color(120, 20, 20);
+
+    this.count = int(random(1, 4));
+    this.length = this.count * SPIKE_LENGTH * 2;
+    this._initialized = true;
+  }
+
   draw() {
-    fill(SPIKE_COLOUR);
+    if (!this._initialized) this.init();
+
     noStroke();
-    // draw a set of triangles starting at x,y coordinates
-    for (let i = 0; i < this.a; i++) {
-      let offset = SPIKE_LENGTH * i;
+    fill(this.fillColor);
+    for (let i = 0; i < this.count; i++) {
+      const offset = SPIKE_LENGTH * i * 2;
       triangle(
         this.x + offset,
         this.y,
@@ -32,12 +45,7 @@ class Spike extends Obstacle {
   }
 
   collidesWith(player) {
-    if (super.collidesWith(player, this.length, this.height)) {
-      //player.health -= 1;
-      return true;
-    }
-
-    return false;
+    return super.collidesWith(player, this.length, this.height);
   }
 
   isOffScreen() {
