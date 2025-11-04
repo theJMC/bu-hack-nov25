@@ -9,7 +9,6 @@
     <div class="container">
     <h1>Join chatroom</h1>
     <h2>Game ID: <input type="text" id="input-game-id"/></h2>
-    <h2>Name ID: <input type="text" id="input-name"/></h2>
     <button class="btn btn-primary" onclick="joinChat()">Join</button>
     </div>
     <hr>
@@ -27,8 +26,6 @@
         function joinChat() {
             const gameId = document.getElementById("input-game-id").value;
             localStorage.setItem("gameId", gameId);
-            const name = document.getElementById("input-name").value;
-            localStorage.setItem("name", name);
             window.location.href = `/chat`;
         }
     </script>
