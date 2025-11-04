@@ -16,7 +16,7 @@ async def get():
 @app.get("/chat")
 async def get_chat():
     """ Send the pure HTML to the client """
-    with open("templates/chat.html") as f:
+    with open("templates/game.html") as f:
         return HTMLResponse(f.read())
 
 
@@ -39,7 +39,7 @@ async def websocket_endpoint(websocket: WebSocket, game_id: str, mode: str | Non
     if mode == "host":
         if curr_game.is_host_connected():
             await websocket.accept()
-            await websocket.send_text("Host already connected")
+            await websocket.send_json({"code": 400, "content": "Host already connected"})
             await websocket.close()
             print("=== HOST ALREADY CONNECTED ===")
             return
@@ -57,20 +57,20 @@ async def websocket_endpoint(websocket: WebSocket, game_id: str, mode: str | Non
         return
     playerNum = await ConMan.connect(websocket, is_host)
     if is_host:
-        await ConMan.broadcast(f"Host joined the game")
+        await ConMan.broadcast({"code": 200, "content": "Host joined the game"})
     else:
-        await ConMan.broadcast(f"Player {playerNum} joined the chat")
+        await ConMan.broadcast({"code": 200, "content": f"Player {playerNum} joined the chat"})
     try:
         while True:
             data = await websocket.receive_text()
-            await ConMan.broadcast(f"Player {playerNum}: {data}")
+            await ConMan.broadcast({"code": 200, "content": f"Player {playerNum}: {data}"})
     except WebSocketDisconnect:
         if is_host:
             await ConMan.disconnect_host()
             await GameMan.delete_game(game_id)
         else:
             ConMan.disconnect_player(websocket)
-            await ConMan.broadcast(f"Player {playerNum} left the chat")
+            await ConMan.broadcast({"code": 200, "content": f"Player {playerNum} left the chat"})
 
 
 ## Games

@@ -2,6 +2,12 @@ import string
 import random
 from handlers.ws_con import ConnectionManager as ConMan
 
+player_colours = [
+    "Blue",
+    "BlueViolet",
+    "Crimson",
+    "DarkGoldenRod"
+]
 
 class GameManager:
     def __init__(self):
