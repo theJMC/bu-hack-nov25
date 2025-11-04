@@ -21,6 +21,7 @@
 
     <script>
         function hostGame() {
+            localStorage.setItem("gameId", null);
             window.location.href = `/host`;
         }
         function joinChat() {
