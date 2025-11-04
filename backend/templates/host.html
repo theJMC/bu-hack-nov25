@@ -29,24 +29,29 @@
                   console.log(game_code)
                   var ws = new WebSocket(`wss://${window.location.hostname}/ws/${game_code}/host`);
                   ws.onmessage = (e) => {
-                  const msg = JSON.parse(event.data);
+                      var newMsg = (msgContent) => {
+                          var messages = document.getElementById('messages')
+                          var message = document.createElement('li')
+                          var content = document.createTextNode(msgContent)
+                          message.appendChild(content)
+                          messages.appendChild(message)
+                      }
+                      const msg = JSON.parse(e.data);
+
                       switch (msg["code"]) {
+
                         case 201:
-                        document.getElementById('player-number').innerText = msg["playerNum"]
-                        break;
+                            document.getElementById('player-number').innerText = msg["playerNum"]
+                            break;
+                        case 202:
+                            newMsg(`${msg.code}-${msg.action}-${msg.intensity}`)
+                              break;
                         default:
-                        var messages = document.getElementById('messages')
-                        var message = document.createElement('li')
-                        var content = document.createTextNode(`${msg.code}-${msg.content}`)
-                        message.appendChild(content)
-                        messages.appendChild(message)
+                            newMsg(msg["content"])
                         }
                   }
               }
           }
-
-      }
-      function newGame() {
 
       }
   </script>

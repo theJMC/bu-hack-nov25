@@ -1,3 +1,5 @@
+import json
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from handlers.game import GameManager, Game
@@ -51,7 +53,7 @@ async def websocket_endpoint(websocket: WebSocket, game_id: str, mode: str | Non
         ConMan = curr_game.ConMan
     except AttributeError:
         await websocket.accept()
-        await websocket.send_text("Game not found")
+        await websocket.send_json({"code": 404, "content": "Game not found"})
         await websocket.close()
         print("=== GAME NOT FOUND ===")
         return
@@ -62,8 +64,11 @@ async def websocket_endpoint(websocket: WebSocket, game_id: str, mode: str | Non
         await ConMan.broadcast({"code": 200, "content": f"Player {playerNum} joined the chat"})
     try:
         while True:
-            data = await websocket.receive_text()
-            await ConMan.broadcast({"code": 200, "content": f"Player {playerNum}: {data}"})
+            data = json.loads(await websocket.receive_text())
+            # data["code"] = 202
+            data["playerNum"] = playerNum
+            print(data)
+            await ConMan.broadcast(data)
     except WebSocketDisconnect:
         if is_host:
             await ConMan.disconnect_host()
