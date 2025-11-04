@@ -52,7 +52,7 @@
                     case 202:
                         newMsg(`${msg.code}-${msg.action}-${msg.intensity}`)
                         break;
-                    case 404:
+                    case 400 | 404:
                         errorMsg(msg["content"])
                         break;
                     default:

@@ -18,6 +18,10 @@ class ConnectionManager:
 
     async def connect(self, websocket: WebSocket, is_host: bool):
         await websocket.accept()
+        if len(self.players) > 3:
+            await websocket.send_json({"code": 404, "content": "Too many players"})
+            await websocket.close()
+            return
         if is_host:
             self.host = websocket
             return 0
@@ -25,7 +29,7 @@ class ConnectionManager:
             self.players.append(websocket)
             playerNum = len(self.players)
             await self.send_personal_message({"code": 201, "playerNum": playerNum,
-                                              "colour": player_colours[playerNum]}, websocket)
+                                              "colour": player_colours[playerNum-1]}, websocket)
             return len(self.players)
 
     def disconnect_player(self, websocket: WebSocket):

@@ -58,10 +58,13 @@ async def websocket_endpoint(websocket: WebSocket, game_id: str, mode: str | Non
         print("=== GAME NOT FOUND ===")
         return
     playerNum = await ConMan.connect(websocket, is_host)
+    if playerNum is None:
+        await ConMan.broadcast({"code": 200, "content": "A player tried to join this full game"})
+        return
     if is_host:
         await ConMan.broadcast({"code": 200, "content": "Host joined the game"})
     else:
-        await ConMan.broadcast({"code": 200, "content": f"Player {playerNum} joined the chat"})
+        await ConMan.broadcast({"code": 200, "content": f"Player {playerNum} joined the game"})
     try:
         while True:
             data = json.loads(await websocket.receive_text())
