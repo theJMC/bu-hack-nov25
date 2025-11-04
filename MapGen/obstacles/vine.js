@@ -1,6 +1,6 @@
 let VINE_COLOUR;
 const VINE_HEIGHT = 100;
-const VINE_LENGTH = 150;
+const VINE_LENGTH = 50;
 
 /**
  * Vines are able to spawn on ceilings.
@@ -17,11 +17,12 @@ class Vine extends Obstacle {
   }
 
   init() {
-    VINE_COLOUR = VINE_COLOUR || color(255, 204, 0);
-    this.fillColor = color(50, 180, 70);
-    this.strokeColor = color(30, 120, 40);
+    VINE_COLOUR = VINE_COLOUR || color(50, 180, 70, 180);
+    this.fillColor = color(50, 180, 70, 180);
+    this.strokeColor = color(30, 120, 40, 180);
     this._initialized = true;
   }
+
 
   draw() {
     if (!this._initialized) this.init();

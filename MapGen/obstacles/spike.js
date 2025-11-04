@@ -4,7 +4,7 @@ const SPIKE_HEIGHT = SPIKE_LENGTH / 4;
 
 /**
  * Spikes are danger to the player
- * The amount of spikes will be randomised upon generation (2–5)
+ * The amount of spikes will be randomised upon generation (1–4)
  */
 class Spike extends Obstacle {
   constructor(x, y) {
@@ -21,7 +21,7 @@ class Spike extends Obstacle {
     this.fillColor = color(200, 40, 40);
     this.strokeColor = color(120, 20, 20);
 
-    this.count = int(random(2, 6));
+    this.count = int(random(1, 4));
     this.length = this.count * SPIKE_LENGTH * 2;
     this._initialized = true;
   }
