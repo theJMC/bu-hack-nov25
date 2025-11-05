@@ -31,10 +31,29 @@ class Ledge extends Obstacle {
   }
 
   collidesWith(player) {
-    if (super.collidesWith(player, this.length, this.height)) {
-      return true;
+    if (!super.collidesWith(player, this.length, this.height)) return false;
+
+    const px = player.x, py = player.y, pw = player.width, ph = player.height;
+    const lx = this.x, ly = this.y, lw = this.length, lh = this.height;
+
+    const overlapX = Math.min(px + pw, lx + lw) - Math.max(px, lx);
+    const overlapY = Math.min(py + ph, ly + lh) - Math.max(py, ly);
+
+    if (overlapX < overlapY) {
+      // Horizontal collision
+      if (px < lx) player.cannotMoveX = true
+    } else {
+      // Vertical collision — check if player is falling onto the ledge
+      const threshold = 10; // how far the player can penetrate before snapping
+      if (player.y + player.height > ly - threshold && player.y + player.height <= ly + lh) {
+        player.y = ly - player.height; // snap player on top
+        player.velocityY = 0;
+        player.isJumping = false;
+        player.jumpNumber = 0;
+      }
     }
-    return false;
+
+    return true;
   }
 
   isOffScreen() {

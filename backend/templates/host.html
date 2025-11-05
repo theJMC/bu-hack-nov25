@@ -16,45 +16,58 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <script>
-      function startHosting(game) {
-          localStorage.setItem("game_code", game["game_id"]);
-          document.getElementById("game-code").innerHTML = game["game_id"]
-          var game_code = localStorage.getItem("game_code");
-          console.log(game_code)
-          var ws = new WebSocket(`wss://${window.location.hostname}/ws/${game_code}/host`);
-          ws.onmessage = (e) => {
-              var newMsg = (msgContent) => {
-                  var messages = document.getElementById('messages')
-                  var message = document.createElement('li')
-                  var content = document.createTextNode(msgContent)
-                  message.appendChild(content)
-                  messages.appendChild(message)
-              }
-              const msg = JSON.parse(e.data);
-
-              switch (msg["code"]) {
-
-                case 201:
-                    document.getElementById('player-number').innerText = msg["playerNum"]
-                    break;
-                case 202:
-                    newMsg(`${msg.code}-${msg.action}-${msg.intensity}`)
-                      break;
-                default:
-                    newMsg(msg["content"])
-                }
-          }
+      function newMsg(msgContent) {
+          const messages = document.getElementById('messages');
+          const message = document.createElement('li');
+          const content = document.createTextNode(msgContent);
+          message.appendChild(content)
+          messages.appendChild(message)
       }
+      function jump(playerNum) {
+          console.log(`${playerNum} - Jump`)
+      }
+      function slide(playerNum) {
+          console.log(`${playerNum} - Slide`)
+      }
+      function shake(playerNum) {
+          console.log(`${playerNum} - Shake`)
+      }
+
       window.onload = () => {
-          if (localStorage.getItem("game_code") != null) { // If Code is Present
-              startHosting({"game_id": localStorage.getItem("gameId")})
-          } else { // If Code is not present
-              var req = new XMLHttpRequest();
-              req.open("GET", "/game/new", true);
-              req.send();
-              req.onreadystatechange = function() {
-                  if (req.readyState == 4 && req.status == 200) {
-                      startHosting(JSON.parse(req.responseText));
+          var req = new XMLHttpRequest();
+          req.open("GET", "/game/new", true);
+          req.send();
+          req.onreadystatechange = function() {
+              if (req.readyState == 4 && req.status == 200) {
+                  var game = JSON.parse(req.responseText);
+                  localStorage.setItem("game_code", game["game_id"]);
+                  document.getElementById("game-code").innerHTML = game["game_id"]
+                  var game_code = localStorage.getItem("game_code");
+                  console.log(game_code)
+                  var ws = new WebSocket(`wss://${window.location.hostname}/ws/${game_code}/host`);
+                  ws.onmessage = (e) => {
+                      const event = JSON.parse(e.data);
+                      // status code change
+                      switch (event["code"]) {
+                        case 201: // Game Start
+                            document.getElementById('player-number').innerText = msg["playerNum"]
+                            break;
+                        case 202: // Remote Event
+                            switch (event.action.toLowerCase()) {
+                                  case "jump":
+                                      jump(event["playerNum"])
+                                      break;
+                                  case "slide":
+                                      slide(event["playerNum"])
+                                      break;
+                                  case "shake":
+                                      shake(event["playerNum"])
+                                      break;
+                              }
+                              break;
+                        default:
+                            newMsg(msg["content"])
+                        }
                   }
               }
           }

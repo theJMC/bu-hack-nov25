@@ -62,7 +62,7 @@
             
             function sendEvent(event) {
                 var send = {"code": 202, "action": event, "intensity": 1, "timestamp": Date.now()}
-                ws.send(JSON.stringify(send))
+                ws.send(send)
             }
         </script>
     </body>

@@ -1,6 +1,6 @@
 let SPIKE_COLOUR;
 const SPIKE_LENGTH = 20;
-const SPIKE_HEIGHT = SPIKE_LENGTH / 4;
+const SPIKE_HEIGHT = SPIKE_LENGTH / 1.5;
 
 /**
  * Spikes are danger to the player
@@ -45,7 +45,9 @@ class Spike extends Obstacle {
   }
 
   collidesWith(player) {
-    return super.collidesWith(player, this.length, this.height);
+    if (super.collidesWith(player, this.length, this.height)) {
+      player.hurt()
+    }
   }
 
   isOffScreen() {

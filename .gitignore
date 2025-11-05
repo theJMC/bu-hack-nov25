@@ -1,0 +1,4 @@
+*.idea
+backend/handlers/*
+*.pyc
+**/__pycache__/``

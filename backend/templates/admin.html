@@ -16,13 +16,11 @@
                 <tr>
                     <th scope="col">Game ID</th>
                     <th scope="col"></th>
-                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody id="game-list-body">
                 <tr>
                     <th>{ID}</th>
-                    <td><button class="btn btn-primary">Join</button></td>
                     <td><button class="btn btn-danger">Delete</button></td>
                 </tr>
             </tbody>
@@ -55,25 +53,6 @@
             var idCellText = document.createTextNode(gameID);
             idCell.appendChild(idCellText);
 
-            var joinCell = document.createElement("td");
-            var joinPlayerCellButton = document.createElement("button");
-            joinPlayerCellButton.className = "btn btn-primary";
-            joinPlayerCellButton.innerText = "Join: Player";
-            joinPlayerCellButton.onclick = () => {
-                localStorage.setItem("gameId", gameID);
-                window.location.href = "/chat";
-            }
-            joinCell.appendChild(joinPlayerCellButton);
-
-            var joinHostCellButton = document.createElement("button");
-            joinHostCellButton.className = "btn btn-primary";
-            joinHostCellButton.innerText = "Join: Host";
-            joinHostCellButton.onclick = () => {
-                localStorage.setItem("gameId", gameID);
-                window.location.href = "/host";
-            }
-            joinCell.appendChild(joinHostCellButton);
-
             var deleteCell = document.createElement("td");
             var deleteCellButton = document.createElement("button");
             deleteCellButton.className = "btn btn-danger";
@@ -92,13 +71,12 @@
             deleteCell.appendChild(deleteCellButton);
 
             tableRow.appendChild(idCell);
-            tableRow.appendChild(joinCell);
             tableRow.appendChild(deleteCell);
             document.getElementById("game-list-body").appendChild(tableRow);
 
           }
           var req = new XMLHttpRequest();
-          req.open("GET", "/game", true);
+          req.open("GET", "/listgame", true);
           req.send();
           req.onreadystatechange = function() {
               if (req.readyState == 4 && req.status == 200) {

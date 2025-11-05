@@ -26,8 +26,8 @@ class GameManager:
                 return game
         return None
 
-    async def list_games(self):
-        return self.active_games
+    def list_games(self):
+        return [g.to_dict() for g in self.active_games]
 
     async def delete_game(self, game_id: str):
         print(f" === GAME DELETED {game_id} ===")
@@ -55,5 +55,12 @@ class Game:
     def __repr__(self):
         return f"<Game ID: {self.game_id}, Players: {self.get_num_players()}, Name: {self.name}>"
 
+    def to_dict(self):
+        return {
+            "game_id": self.game_id,
+            "name": self.name,
+            "num_players": self.get_num_players(),
+            "is_host_connected": self.is_host_connected()
+        }
 
 
