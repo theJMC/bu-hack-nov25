@@ -33,7 +33,9 @@ class Vine extends Obstacle {
   }
 
   collidesWith(player) {
-    return super.collidesWith(player, this.length, this.height);
+    if (super.collidesWith(player, this.length, this.height)) {
+      player.slow()
+    }
   }
 
   isOffScreen() {

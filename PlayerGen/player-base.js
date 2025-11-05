@@ -1,5 +1,5 @@
 const PLAYER_WIDTH = 20;
-const PLAYER_HEIGHT = 100;
+const PLAYER_HEIGHT = 50;
 const GRAVITY = 0.8;
 const JUMP_FORCE = -15;
 
@@ -16,6 +16,9 @@ class Player {
 
     this.velocityY = 0;
     this.isJumping = false;
+    this.jumpNumber = 0;
+    this.cannotMoveX = false;
+    this.cannotSlow = 20;
 
     this.playerColour = color(random(255), random(255), random(255))
     this.statusColour = undefined
@@ -26,11 +29,18 @@ class Player {
     // Draw the player as a rectangle
     // TODO - Update player shape
     noStroke();
+
+    if (this.cannotSlow > 0) {
+      // TODO update this effect to be clearer to the player
+      stroke(5)
+      this.cannotSlow--
+    }
+
     fill(this.playerColour);
     rect(this.x, this.y, this.width, this.height);
 
     if (this.statusTimer > 0) {
-      fill(this.statusColor);
+      fill(this.statusColour);
       rect(this.x, this.y, this.width, this.height);
     }
     
@@ -38,20 +48,27 @@ class Player {
     if (this.statusTimer > 0) {
       this.statusTimer -= 1;
       if (this.statusTimer <= 0) {
-        this.statusColor = undefined
+        this.statusColour = undefined
       }
     }
   }
 
   jump() {
-    if (!this.isJumping) {
+    if (this.jumpNumber < 2) {
       this.velocityY = JUMP_FORCE;
+      this.jumpNumber ++
       this.isJumping = true;
+      this.cannotMoveX = false;
     }
   }
 
   move(speed) {
-    this.x += speed - this.speedMod;
+    if (!this.cannotMoveX) {
+      this.x += speed - this.speedMod;
+    } {
+      this.x -= speed
+      this.cannotMoveX = false
+    }
     
     if (this.speedMod > 0) {
       this.speedMod -= 0.05;
@@ -66,12 +83,13 @@ class Player {
       this.y = groundY;
       this.velocityY = 0;
       this.isJumping = false;
+      this.jumpNumber = 0
     }
   }
 
   hurt() {
     this.health -= 1;
-    this.statusColor = color(255, 0, 0); // red
+    this.statusColour = color(255, 0, 0); // red
     this.statusTimer = 30;
 
     if (this.health <= 0) {
@@ -79,10 +97,16 @@ class Player {
     }
   }
 
+  clamber() {
+    this.cannotSlow = 20
+  }
+
   slow() {
-    this.speedMod = 2;
-    this.statusColor = color(0, 255, 0); // green
-    this.statusTimer = 60;
+    if (this.cannotSlow == 0) {
+      this.speedMod = 2;
+      this.statusColour = color(0, 255, 0); // green
+      this.statusTimer = 60;
+    }
   }
 
   die() {
