@@ -22,6 +22,7 @@ function draw() {
     updatePlayers(screenSpeed)
     screenSpeed = min(screenSpeed + 0.01, 7);
   } else {
+    fill('#ff6600');
     text('All Players have died', width/2,height/2);
   }
 }
