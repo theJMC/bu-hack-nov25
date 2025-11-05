@@ -104,5 +104,5 @@ async def delete_game(game_id: str):
 
 @app.get("/game")
 async def list_games():
-    games = await GameMan.list_games()
+    games = GameMan.list_games()
     return games

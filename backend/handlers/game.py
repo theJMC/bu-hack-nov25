@@ -26,7 +26,7 @@ class GameManager:
                 return game
         return None
 
-    async def list_games(self):
+    def list_games(self):
         return self.active_games
 
     async def delete_game(self, game_id: str):
