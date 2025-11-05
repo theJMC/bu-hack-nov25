@@ -76,7 +76,7 @@
 
           }
           var req = new XMLHttpRequest();
-          req.open("GET", "/game", true);
+          req.open("GET", "/listgame", true);
           req.send();
           req.onreadystatechange = function() {
               if (req.readyState == 4 && req.status == 200) {
