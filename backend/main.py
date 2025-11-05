@@ -67,7 +67,8 @@ async def websocket_endpoint(websocket: WebSocket, game_id: str, mode: str | Non
         await ConMan.broadcast({"code": 200, "content": f"Player {playerNum} joined the game"})
     try:
         while True:
-            data = json.loads(await websocket.receive_text())
+            data = await websocket.receive_json()
+            # data = json.loads(await websocket.receive_text())
             # data["code"] = 202
             data["playerNum"] = playerNum
             print(data)
