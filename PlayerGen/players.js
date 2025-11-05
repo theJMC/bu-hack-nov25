@@ -85,10 +85,3 @@ function addPlayer(id) {
     const player = new Player(width * 0.3, height - PLAYER_HEIGHT, id);
     PLAYERS.push(player);
 }
-
-/**
- * This is for testing - there should be no test players in real runs
- */
-function renderTestPlayer() {
-    addPlayer(1)
-}

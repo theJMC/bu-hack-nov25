@@ -6,7 +6,7 @@ function setup() {
   startGeneration();
 
   if (SHOW_TEST_PLAYER) {
-    renderTestPlayer()
+    addPlayer(1)
   }
 }
 
