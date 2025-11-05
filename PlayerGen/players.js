@@ -14,10 +14,39 @@ function updatePlayers(speed) {
       PLAYERS.splice(i, 1);
       p.die();
     }
+
+    for (const o of OBSTACLES) {
+      o.collidesWith(p)
+    }
   }
 }
 
-// TODO - incoming player actions from the gyroscope
+/**
+ * Finds and returns a player by their unique ID
+ * @param {string|number} id - The player's unique identifier
+ * @returns {Player|false} - The player instance or false if not found
+ */
+function getPlayer(id) {
+  return PLAYERS.find(p => p.id === id) || false;
+}
+
+/**
+ * Handle incoming player actions from the gyroscope
+ * @param {guid} id 
+ */
+function jumpPlayer(id) {
+  const player = getPlayer(id);
+  if (!player) return;
+  player.jump()
+}
+function slidePlayer(id) {
+  const player = getPlayer(id);
+  if (!player) return;
+}
+function clamberPlayer(id) {
+  const player = getPlayer(id);
+  if (!player) return;
+}
 
 // TODO - death handeling
 
