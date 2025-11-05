@@ -4,6 +4,9 @@
     <meta charset="utf-8" />
     <title>BU Hack Game</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jolly+Lodger&display=swap" rel="stylesheet">
 
     <!-- obstacle base + subclasses (must load BEFORE map.js) -->
     <script src="MapGen/obstacles/obstacle-base.js"></script>
@@ -20,7 +23,19 @@
 
     <script src="main.js"></script>
     <script src="websocket.js"></script>
+
+    <style>
+      body {
+        background-color: black;
+      }
+      h1 {
+        font-family: 'Jolly Lodger', cursive;
+        font-size: 2em;
+        color: #ff6600;
+      }
+    </style>
   </head>
+
   <body>
     <div><h1>Game Code: <span id="game-code"></span></h1></div>
     <div id="game-container"></div>
