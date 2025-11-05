@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <title>BU Hack Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
 
     <!-- obstacle base + subclasses (must load BEFORE map.js) -->
@@ -20,6 +23,16 @@
 
     <script src="main.js"></script>
     <script src="websocket.js"></script>
+    <style>
+      body {
+        background-color: black;
+      }
+      h1 {
+        font-size: 2em;
+        color: #ff6600;
+        font-family: 'ZCOOL KuaiLe', cursive;
+      }
+    </style>
   </head>
   <body>
     <div><h1>Game Code: <span id="game-code"></span></h1></div>
