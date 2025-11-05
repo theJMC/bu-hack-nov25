@@ -1,7 +1,7 @@
 let screenSpeed = 1;
 
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(min(800, windowWidth - 25), 600);
   startGeneration();
 }
 
