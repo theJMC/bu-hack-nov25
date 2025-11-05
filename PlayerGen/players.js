@@ -42,6 +42,7 @@ function jumpPlayer(id) {
 function slidePlayer(id) {
   const player = getPlayer(id);
   if (!player) return;
+  player.slide()
 }
 function clamberPlayer(id) {
   const player = getPlayer(id);
