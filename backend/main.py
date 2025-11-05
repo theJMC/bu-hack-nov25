@@ -71,7 +71,7 @@ async def websocket_endpoint(websocket: WebSocket, game_id: str, mode: str | Non
             # data["code"] = 202
             data["playerNum"] = playerNum
             print(data)
-            await ConMan.broadcast(data)
+            await ConMan.send_host_message(data)
     except WebSocketDisconnect:
         if is_host:
             await ConMan.disconnect_host()

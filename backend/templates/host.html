@@ -16,6 +16,23 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <script>
+      function newMsg(msgContent) {
+          const messages = document.getElementById('messages');
+          const message = document.createElement('li');
+          const content = document.createTextNode(msgContent);
+          message.appendChild(content)
+          messages.appendChild(message)
+      }
+      function jump(playerNum) {
+          console.log(`${playerNum} - Jump`)
+      }
+      function slide(playerNum) {
+          console.log(`${playerNum} - Slide`)
+      }
+      function shake(playerNum) {
+          console.log(`${playerNum} - Shake`)
+      }
+
       window.onload = () => {
           var req = new XMLHttpRequest();
           req.open("GET", "/game/new", true);
@@ -29,25 +46,27 @@
                   console.log(game_code)
                   var ws = new WebSocket(`wss://${window.location.hostname}/ws/${game_code}/host`);
                   ws.onmessage = (e) => {
-                      var newMsg = (msgContent) => {
-                          var messages = document.getElementById('messages')
-                          var message = document.createElement('li')
-                          var content = document.createTextNode(msgContent)
-                          message.appendChild(content)
-                          messages.appendChild(message)
-                      }
-                      const msg = JSON.parse(e.data);
-
-                      switch (msg["code"]) {
-
-                        case 201:
+                      const event = JSON.parse(e.data);
+                      // status code change
+                      switch (event["code"]) {
+                        case 201: // Game Start
                             document.getElementById('player-number').innerText = msg["playerNum"]
                             break;
-                        case 202:
-                            newMsg(`${msg.code}-${msg.action}-${msg.intensity}`)
+                        case 202: // Remote Event
+                            switch (event.action) {
+                                  case "jump":
+                                      jump(event["playerNum"])
+                                      break;
+                                  case "slide":
+                                      slide(event["playerNum"])
+                                      break;
+                                  case "shake":
+                                      shake(event["playerNum"])
+                                      break;
+                              }
                               break;
                         default:
-                            newMsg(msg["content"])
+                            newMsg(event["content"])
                         }
                   }
               }
