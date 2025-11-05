@@ -1,10 +1,10 @@
 let PLAYERS = [];
-const MAX_PLAYERS = 20;
+const MAX_PLAYERS = 4;
 
 /**
  * General player handeling
  */
-function updateObstacles(speed) {
+function updatePlayers(speed) {
   for (let i = PLAYERS.length - 1; i >= 0; i--) {
     const p = PLAYERS[i];
     p.move(speed);

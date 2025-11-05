@@ -1,4 +1,4 @@
-const LEDGE_COLOUR = color(255, 204, 0);
+let LEDGE_COLOUR;
 const LEDGE_HEIGHT = 20;
 
 /**
@@ -7,22 +7,33 @@ const LEDGE_HEIGHT = 20;
 class Ledge extends Obstacle {
   constructor(x, y) {
     super(x, y);
-    this.length = random(100, 300);
+
+    this._initialized = false;
+
+    this.length = 0;
     this.height = LEDGE_HEIGHT;
   }
 
+  init() {
+    LEDGE_COLOUR = LEDGE_COLOUR || color(255, 204, 0);
+    this.fillColor = color(150, 100, 50);
+    this.strokeColor = color(100, 60, 30);
+    this.length = random(100, 300);
+    this._initialized = true;
+  }
+
   draw() {
-    fill(LEDGE_COLOUR);
+    if (!this._initialized) this.init();
+
     noStroke();
-    rect(this.x, this.y, this.x + this.length, this.y + this.height);
+    fill(this.fillColor);
+    rect(this.x, this.y, this.length, this.height);
   }
 
   collidesWith(player) {
     if (super.collidesWith(player, this.length, this.height)) {
-      //player.y = this.y - player.height;
       return true;
     }
-
     return false;
   }
 

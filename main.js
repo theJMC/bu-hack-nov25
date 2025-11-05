@@ -1,4 +1,4 @@
-let screenSpeed = 3;
+let screenSpeed = 1;
 
 function setup() {
   createCanvas(800, 600);
