@@ -1,12 +1,12 @@
 let screenSpeed = 1;
 let SHOW_TEST_PLAYER = true
 
-// function preload() {
-//   font = loadFont('/assets/ZCOOLKuaiLe-Regular.ttf');
-// }
-
 function setup() {
   createCanvas(min(800, windowWidth - 25), 600);
+  textAlign(CENTER, CENTER);
+  textSize(32);
+
+  // Game code
   startGeneration();
 
   if (SHOW_TEST_PLAYER) {
@@ -21,8 +21,9 @@ function draw() {
     updateObstacles(screenSpeed);
     updatePlayers(screenSpeed)
     screenSpeed = min(screenSpeed + 0.01, 7);
+  } else {
+    text('All Players have died', width/2,height/2);
   }
-
 }
 
 /**
