@@ -7,6 +7,7 @@ This is out hackathon project!
 
 ### Dependencies
 * Using p5.js
+* Using [ZCOOL KuaiLe - A Google Font](https://fonts.google.com/share?selection.family=ZCOOL+KuaiLe)
 
 ## Authors
 Jessica Long
