@@ -45,7 +45,9 @@ class Spike extends Obstacle {
   }
 
   collidesWith(player) {
-    return super.collidesWith(player, this.length, this.height);
+    if (super.collidesWith(player, this.length, this.height)) {
+      player.hurt()
+    }
   }
 
   isOffScreen() {

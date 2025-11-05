@@ -10,7 +10,7 @@ function updatePlayers(speed) {
     p.move(speed);
     p.draw();
 
-    if (p.isOffScreen()) {
+    if (p.isOffScreen() || p.health == 0) {
       PLAYERS.splice(i, 1);
       p.die();
     }
@@ -81,7 +81,7 @@ function addPlayer(id) {
     }
 
     //const player = new Player(0, 0, id);
-    const player = new Player(100, height - PLAYER_HEIGHT, id);
+    const player = new Player(width * 0.3, height - PLAYER_HEIGHT, id);
     PLAYERS.push(player);
 }
 
