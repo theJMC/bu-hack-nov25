@@ -25,6 +25,7 @@ document.addEventListener("keydown", (event) => {
   switch (event.key.toLowerCase()) {
     case "arrowup":
     case "w":
+    case " ":
       jumpPlayer(1);
       break;
 
