@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useGestureDetection, type GestureData } from '../composables/useGestureDetection'
 import { useWebSocket } from '../composables/useWebSocket'
+import { useDevicePermissions } from '../composables/useDevicePermissions'
 
 const gameCode = ref('')
 const isJoining = ref(false)
@@ -16,7 +17,6 @@ const gestureEnabled = ref(false)
 const {
   currentAction,
   actionIntensity,
-  sensorData,
   handleDeviceMotion,
   handleDeviceOrientation,
   setGestureCallback,
@@ -28,6 +28,14 @@ const {
 const wsUrl = ref('')
 const wsConnected = ref(false)
 const wsError = ref('')
+
+const {
+  permissionStatus: _permissionStatus,
+  supportsMotion: _supportsMotion,
+  debugInfo: _debugInfo,
+  requestAndSetupSensors,
+  removeMotionListeners
+} = useDevicePermissions()
 
 const joinGame = async () => {
   if (!gameCode.value.trim()) {
@@ -105,19 +113,18 @@ const onGesture = (gestureData: GestureData) => {
 
 const toggleGestureControls = async () => {
   if (!gestureEnabled.value) {
-    // Request permission and enable
+    // Request permission and enable using the composable
     try {
-      if (typeof DeviceMotionEvent.requestPermission === 'function') {
-        const permission = await DeviceMotionEvent.requestPermission()
-        if (permission !== 'granted') {
-          alert('Motion permission is required for gesture controls')
-          return
-        }
-      }
+      const granted = await requestAndSetupSensors(handleDeviceMotion, handleDeviceOrientation)
       
-      gestureEnabled.value = true
-      calibrateDevice()
-      console.log('Gesture controls enabled')
+      if (granted) {
+        gestureEnabled.value = true
+        calibrateDevice()
+        console.log('Gesture controls enabled')
+      } else {
+        alert('Motion permission is required for gesture controls')
+        return
+      }
     } catch (error) {
       console.error('Error enabling gesture controls:', error)
       alert('Failed to enable gesture controls')
@@ -125,6 +132,7 @@ const toggleGestureControls = async () => {
   } else {
     // Disable
     gestureEnabled.value = false
+    removeMotionListeners(handleDeviceMotion, handleDeviceOrientation)
     console.log('Gesture controls disabled')
   }
 }
@@ -157,10 +165,8 @@ const leaveGame = () => {
 // Setup gesture detection
 onMounted(() => {
   setGestureCallback(onGesture)
-  
-  // Add event listeners for gesture detection
-  window.addEventListener('devicemotion', handleDeviceMotion)
-  window.addEventListener('deviceorientation', handleDeviceOrientation)
+  // Initialize permissions but don't set up listeners yet
+  // They will be set up when user toggles gesture controls
 })
 
 // Cleanup
@@ -169,8 +175,8 @@ onUnmounted(() => {
     webSocketComposable.cleanup()
   }
   
-  window.removeEventListener('devicemotion', handleDeviceMotion)
-  window.removeEventListener('deviceorientation', handleDeviceOrientation)
+  // Remove listeners using the composable
+  removeMotionListeners(handleDeviceMotion, handleDeviceOrientation)
 })
 </script>
 
