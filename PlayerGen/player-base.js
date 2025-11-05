@@ -30,7 +30,7 @@ class Player {
     rect(this.x, this.y, this.width, this.height);
 
     if (this.statusTimer > 0) {
-      fill(this.statusColor);
+      fill(this.statusColour);
       rect(this.x, this.y, this.width, this.height);
     }
     
@@ -38,7 +38,7 @@ class Player {
     if (this.statusTimer > 0) {
       this.statusTimer -= 1;
       if (this.statusTimer <= 0) {
-        this.statusColor = undefined
+        this.statusColour = undefined
       }
     }
   }
@@ -71,7 +71,7 @@ class Player {
 
   hurt() {
     this.health -= 1;
-    this.statusColor = color(255, 0, 0); // red
+    this.statusColour = color(255, 0, 0); // red
     this.statusTimer = 30;
 
     if (this.health <= 0) {
@@ -81,7 +81,7 @@ class Player {
 
   slow() {
     this.speedMod = 2;
-    this.statusColor = color(0, 255, 0); // green
+    this.statusColour = color(0, 255, 0); // green
     this.statusTimer = 60;
   }
 

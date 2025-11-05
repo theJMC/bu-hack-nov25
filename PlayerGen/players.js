@@ -33,8 +33,8 @@ function killPlayer(id) {
   // If found, remove and handle death logic
   if (index !== -1) {
     const player = PLAYERS[index];
-    PLAYERS.splice(index, 1);
     player.die();
+    PLAYERS.splice(index, 1);
   } else {
     console.warn(`Player with ID ${id} not found.`);
   }
@@ -51,7 +51,8 @@ function addPlayer(id) {
         return false
     }
 
-    const player = new Player(0, 0, id);
+    //const player = new Player(0, 0, id);
+    const player = new Player(100, height - PLAYER_HEIGHT, id);
     PLAYERS.push(player);
 }
 
