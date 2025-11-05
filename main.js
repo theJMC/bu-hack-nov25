@@ -1,7 +1,9 @@
 let screenSpeed = 1;
 
 function setup() {
-  createCanvas(800, 600);
+  var canvas = createCanvas(800, 600);
+  canvas.parent('game-container');
+
   startGeneration();
 }
 
