@@ -9,6 +9,7 @@ player_colours: list[str] = [
     "DarkGoldenRod"
 ]
 
+
 class ConnectionManager:
     def __init__(self):
         # tuple(name, websocket, is_host)
@@ -29,7 +30,7 @@ class ConnectionManager:
             self.players.append(websocket)
             playerNum = len(self.players)
             await self.send_personal_message({"code": 201, "playerNum": playerNum,
-                                              "colour": player_colours[playerNum-1]}, websocket)
+                                              "colour": player_colours[playerNum - 1]}, websocket)
             return len(self.players)
 
     def disconnect_player(self, websocket: WebSocket):
@@ -42,7 +43,6 @@ class ConnectionManager:
         self.host = None
         await self.broadcast({"code": 200, "content": "Host disconnected. The Game is now over"})
         self.players.clear()
-
 
     async def send_personal_message(self, message: dict, websocket: WebSocket):
         await websocket.send_json(message)
