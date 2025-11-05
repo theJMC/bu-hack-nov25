@@ -1,25 +1,14 @@
 import { ref } from 'vue'
 import type { GestureData } from './useGestureDetection'
 
-export function getGameCode(): string | null {
-  try {
-    // Check localStorage for gameCode from the specific URL
-    const gameCode = localStorage.getItem('gameCode')
-    // You can also check for a URL-specific key if needed
-    const urlSpecificKey = localStorage.getItem('https://nov.bedbugz.uk-gameCode')
-    // Return the gameCode if found, prioritizing URL-specific key
-    return urlSpecificKey || gameCode || null
-  } catch (error) {
-    console.error('Error reading gameCode from localStorage:', error)
-    return null
-  }
-}
-
-export function useWebSocket() {
-
-  const hostname = window.location.hostname;
-  const gameCode = getGameCode();
+export function useWebSocket(gameCode: string) {
+  console.log("WebSocket gameCode:", gameCode);
+  let hostname = window.location.hostname;
+  //TODO REMOVE LATER
+  //  hostname = "nov.bedbugz.uk";
+  hostname = "james-mbp-16.tail6d16d1.ts.net";
   const wsUrl = ref(`wss://${hostname}/ws/${gameCode}/player`)
+  console.log("hello",wsUrl)
   let websocket: WebSocket | null = null
   const wsConnected = ref(false)
   const wsError = ref('')
@@ -62,9 +51,10 @@ export function useWebSocket() {
   const sendActionData = (gestureData: GestureData) => {
     if (websocket && wsConnected.value) {
       const data = {
+        code: 202,
         action: gestureData.action,
         intensity: gestureData.intensity,
-        timestamp: gestureData.timestamp
+        timestamp: gestureData.timestamp,
       }
       websocket.send(JSON.stringify(data))
       console.log('📤 Sent action data:', data)

@@ -24,12 +24,15 @@
           messages.appendChild(message)
       }
       function jump(playerNum) {
+          newMsg(`${playerNum} - Jump`)
           console.log(`${playerNum} - Jump`)
       }
       function slide(playerNum) {
+          newMsg(`${playerNum} - Slide`)
           console.log(`${playerNum} - Slide`)
       }
       function shake(playerNum) {
+          newMsg(`${playerNum} - Shake`)
           console.log(`${playerNum} - Shake`)
       }
 
@@ -47,12 +50,14 @@
                   var ws = new WebSocket(`wss://${window.location.hostname}/ws/${game_code}/host`);
                   ws.onmessage = (e) => {
                       const event = JSON.parse(e.data);
+                      console.log(event)
                       // status code change
                       switch (event["code"]) {
                         case 201: // Game Start
                             document.getElementById('player-number').innerText = msg["playerNum"]
                             break;
                         case 202: // Remote Event
+                            console.log(event.action.toLowerCase())
                             switch (event.action.toLowerCase()) {
                                   case "jump":
                                       jump(event["playerNum"])
@@ -66,7 +71,7 @@
                               }
                               break;
                         default:
-                            newMsg(msg["content"])
+                            newMsg(event["content"])
                         }
                   }
               }

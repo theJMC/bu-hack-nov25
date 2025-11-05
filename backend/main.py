@@ -15,11 +15,11 @@ async def get():
         return HTMLResponse(f.read())
 
 
-@app.get("/chat")
-async def get_chat():
-    """ Send the pure HTML to the client """
-    with open("templates/game.html") as f:
-        return HTMLResponse(f.read())
+# @app.get("/chat")
+# async def get_chat():
+#     """ Send the pure HTML to the client """
+#     with open("templates/game.html") as f:
+#         return HTMLResponse(f.read())
 
 
 @app.get("/host")

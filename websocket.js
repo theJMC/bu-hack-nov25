@@ -36,7 +36,7 @@ window.onload = () => {
                         document.getElementById('player-number').innerText = msg["playerNum"]
                         break;
                     case 202: // Remote Event
-                        switch (event.action) {
+                        switch (event.action.toLowerCase()) {
                             case "jump":
                                 jump(event["playerNum"])
                                 break;
