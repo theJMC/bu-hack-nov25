@@ -1,6 +1,10 @@
 let screenSpeed = 1;
 let SHOW_TEST_PLAYER = true
 
+// function preload() {
+//   font = loadFont('/assets/ZCOOLKuaiLe-Regular.ttf');
+// }
+
 function setup() {
   createCanvas(min(800, windowWidth - 25), 600);
   startGeneration();
@@ -12,10 +16,13 @@ function setup() {
 
 function draw() {
   clear()
-  background(0);
-  updateObstacles(screenSpeed);
-  updatePlayers(screenSpeed)
-  screenSpeed = min(screenSpeed + 0.01, 7);
+  if (PLAYERS.length != 0) {
+    background(0);
+    updateObstacles(screenSpeed);
+    updatePlayers(screenSpeed)
+    screenSpeed = min(screenSpeed + 0.01, 7);
+  }
+
 }
 
 /**
