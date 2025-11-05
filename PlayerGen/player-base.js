@@ -62,6 +62,10 @@ class Player {
     }
   }
 
+  slide() {
+    this.speedMod = -3;
+  }
+
   move(speed) {
     if (!this.cannotMoveX) {
       this.x += speed - this.speedMod;
@@ -72,7 +76,9 @@ class Player {
     
     if (this.speedMod > 0) {
       this.speedMod -= 0.05;
-      if (this.speedMod < 0) this.speedMod = 0;
+    }
+    if (this.speedMod < 0) {
+      this.speedMod += 0.05;
     }
 
     this.velocityY += GRAVITY;
