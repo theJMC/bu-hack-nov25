@@ -7,7 +7,7 @@ function setup() {
 
 function draw() {
   background(0);
-  updateObstacles(floor(screenSpeed));
-  updatePlayers(floor(screenSpeed))
-  screenSpeed = min(screenSpeed + 0.01, 10);
+  updateObstacles(screenSpeed);
+  updatePlayers(screenSpeed)
+  screenSpeed = min(screenSpeed + 0.01, 5);
 }
