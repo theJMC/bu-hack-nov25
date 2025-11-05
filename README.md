@@ -4,6 +4,7 @@ This is out hackathon project!
 ## Features
 - 'One Screen' View
 - Multiplayer Functionality
+- All your *favorite* lecturers
 
 ### Dependencies
 * Using p5.js
