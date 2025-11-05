@@ -185,7 +185,7 @@ export function createDotSketch(
     if (permissionStatus === 'unknown') {
       p.text('Tap "Enable Motion" to use gesture controls!', p.width / 2, p.height - 60)
     } else if (permissionStatus === 'granted') {
-      p.text('Tilt to move • Quick tilt up for slam, down for jump, left/right to dash!', p.width / 2, p.height - 60)
+      p.text('Tilt to move • Quick tilt up for Slide, down for jump, left/right to dash!', p.width / 2, p.height - 60)
       p.textSize(12)
       p.text('Tap "Calibrate" to reset center position', p.width / 2, p.height - 40)
     } else {
