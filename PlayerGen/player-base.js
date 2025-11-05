@@ -18,6 +18,7 @@ class Player {
     this.isJumping = false;
     this.jumpNumber = 0;
     this.cannotMoveX = false;
+    this.cannotSlow = 20;
 
     this.playerColour = color(random(255), random(255), random(255))
     this.statusColour = undefined
@@ -28,6 +29,13 @@ class Player {
     // Draw the player as a rectangle
     // TODO - Update player shape
     noStroke();
+
+    if (this.cannotSlow > 0) {
+      // TODO update this effect to be clearer to the player
+      stroke(5)
+      this.cannotSlow--
+    }
+
     fill(this.playerColour);
     rect(this.x, this.y, this.width, this.height);
 
@@ -89,10 +97,16 @@ class Player {
     }
   }
 
+  clamber() {
+    this.cannotSlow = 20
+  }
+
   slow() {
-    this.speedMod = 2;
-    this.statusColour = color(0, 255, 0); // green
-    this.statusTimer = 60;
+    if (this.cannotSlow == 0) {
+      this.speedMod = 2;
+      this.statusColour = color(0, 255, 0); // green
+      this.statusTimer = 60;
+    }
   }
 
   die() {

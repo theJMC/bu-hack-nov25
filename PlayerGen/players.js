@@ -46,6 +46,7 @@ function slidePlayer(id) {
 function clamberPlayer(id) {
   const player = getPlayer(id);
   if (!player) return;
+  player.clamber()
 }
 
 // TODO - death handeling
