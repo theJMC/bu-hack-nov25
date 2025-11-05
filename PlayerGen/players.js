@@ -50,10 +50,6 @@ function clamberPlayer(id) {
   player.clamber()
 }
 
-// TODO - death handeling
-
-// TODO - collisions with ledges (falling of a ledge ect ect)
-
 /**
  * This will be used to remove a player upon a death event
  * @param {guid} id 
