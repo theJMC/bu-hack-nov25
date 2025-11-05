@@ -10,4 +10,5 @@ function draw() {
   updateObstacles(screenSpeed);
   updatePlayers(screenSpeed)
   screenSpeed = min(screenSpeed + 0.01, 5);
+  clear()
 }
