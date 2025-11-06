@@ -1,5 +1,5 @@
 let screenSpeed = 0;
-let SHOW_TEST_PLAYER = true
+let SHOW_TEST_PLAYER = false
 let font;
 let ben;
 let emili;

@@ -24,8 +24,9 @@ window.onload = () => {
                 const event = JSON.parse(e.data);
                 // status code change
                 switch (event["code"]) {
-                    case 201: // Game Start
-                        document.getElementById('player-number').innerText = msg["playerNum"]
+                    case 201: // Player Join
+                        document.getElementById('player-number').innerText = event["playerNum"]
+                        addPlayer(event["playerNum"])
                         break;
                     case 202: // Remote Event
                         switch (event.action.toLowerCase()) {
