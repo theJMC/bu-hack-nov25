@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     allowedHosts: ['tom-laptop.tail6d16d1.ts.net'],
-  }
+  },
+  base: '/remote/',
 
 })
