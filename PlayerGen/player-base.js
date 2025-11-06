@@ -39,6 +39,8 @@ class Player {
     fill(this.playerColour);
     rect(this.x, this.y, this.width, this.height);
 
+    //image(ben, this.x, this.y, 50, 25);
+
     if (this.statusTimer > 0) {
       fill(this.statusColour);
       rect(this.x, this.y, this.width, this.height);

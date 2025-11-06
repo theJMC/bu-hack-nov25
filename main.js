@@ -8,10 +8,10 @@ let tim;
 
 function preload() {
   font = loadFont('/assets/ZCOOLKuaiLe-Regular.ttf');
-  ben = loadImage('/assets/ben.png');
-  emili = loadImage('/assets/emili.png');
-  gernot = loadImage('/assets/gernot.png');
-  tim = loadImage('/assets/tim.png');
+  ben = loadImage('/assets/lecturers/ben.png');
+  emili = loadImage('/assets/lecturers/emili.png');
+  gernot = loadImage('/assets/lecturers/gernot.png');
+  tim = loadImage('/assets/lecturers/tim.png');
 }
 
 function setup() {
