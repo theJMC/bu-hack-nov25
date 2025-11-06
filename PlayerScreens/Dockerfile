@@ -5,7 +5,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM busybox:1.30 AS runner
-WORKDIR /app
+FROM nginx AS runner
+WORKDIR /usr/share/nginx/html
 COPY --from=builder /app/dist .
-CMD ["busybox", "httpd", "-f", "-v", "-p", "8080"]
+CMD ["nginx", "-g", "daemon off;"]
