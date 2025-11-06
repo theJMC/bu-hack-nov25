@@ -74,8 +74,8 @@ function killPlayer(id) {
  * @param {guid} id 
  */
 function addPlayer(id) {
-    if (PLAYERS.length > MAX_PLAYERS) {
-        return false
+    if (PLAYERS.length > MAX_PLAYERS || getPlayer(id)){
+      return false
     }
 
     //const player = new Player(0, 0, id);
