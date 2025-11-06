@@ -3,7 +3,20 @@ import type { GestureData } from './useGestureDetection'
 
 export function useWebSocket(gameCode: string) {
   console.log("WebSocket gameCode:", gameCode);
-  var hostname = localStorage.getItem("api-server") || window.location.hostname;
+
+  // Select Backend Server
+    switch (window.location.hostname) {
+        case "localhost":
+            var hostname = localStorage.getItem("api-server") || `nov.bedbugz.uk`;
+            break;
+        case "nov.bedbugz.uk":
+        case "dash.bedbugz.uk":
+            var hostname = `api.${window.location.hostname}`;
+            break;
+        default:
+            var hostname = `${window.location.hostname}`;
+    }
+
   const wsUrl = ref(`wss://${hostname}/ws/${gameCode.toLowerCase().trim()}/player`)
   console.log("hello",wsUrl)
   let websocket: WebSocket | null = null

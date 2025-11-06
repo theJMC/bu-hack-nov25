@@ -7,8 +7,18 @@ function newMsg(msgContent) {
 }
 
 window.onload = () => {
-    //const hostname = 'james-mbp-16.atlas-scoville.ts.net';
-    var hostname = localStorage.getItem("api-server") || window.location.hostname;
+    // Select Backend Server
+    switch (window.location.hostname) {
+        case "localhost":
+            var hostname = localStorage.getItem("api-server") || `nov.bedbugz.uk`;
+            break;
+        case "nov.bedbugz.uk":
+        case "dash.bedbugz.uk":
+            var hostname = `api.${window.location.hostname}`;
+            break;
+        default:
+            var hostname = `${window.location.hostname}`;
+    }
 
     var req = new XMLHttpRequest();
     req.open("GET", `https://${hostname}/game/new`, true);
