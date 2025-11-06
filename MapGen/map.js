@@ -40,7 +40,7 @@ function generateCeilingVines(upToX) {
     vine.length = random(VINE_LENGTH * 0.8, VINE_LENGTH * 1.2);
     vine.fillColor = color(50, 180, 70, 180); 
     vine.strokeColor = color(30, 120, 40, 180);
-    CEILING_VINES.push(vine);
+    OBSTACLES.push(vine);
   }
   ceilingVineMaxX = upToX;
 }
@@ -170,13 +170,6 @@ function updateObstacles(speed) {
     o.move(speed);
     o.draw();
     if (o.isOffScreen()) OBSTACLES.splice(i, 1);
-  }
-
-  for (let i = CEILING_VINES.length - 1; i >= 0; i--) {
-    const o = CEILING_VINES[i];
-    o.move(speed);
-    o.draw();
-    if (o.isOffScreen()) CEILING_VINES.splice(i, 1);
   }
 
   // Check if we need new columns
