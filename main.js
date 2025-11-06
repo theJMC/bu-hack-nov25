@@ -47,6 +47,10 @@ document.addEventListener("keydown", (event) => {
       clamberPlayer(1);
       break;
 
+    case "p":
+      addPlayer(1)
+      break;
+
     default:
       break;
   }
