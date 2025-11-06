@@ -52,7 +52,26 @@ class Player {
       }
     }
 
-    image(ben, this.x - 5, this.y - 10, this.width + 10, this.width + 10);
+    switch (this.id) {
+      case 1:
+        image(gernot, this.x - 5, this.y - 10, this.width + 10, this.width + 10);
+        break;
+
+      case 2:
+        image(ben, this.x - 5, this.y - 10, this.width + 10, this.width + 10);
+        break;
+
+      case 3:
+        image(emili, this.x - 5, this.y - 10, this.width + 10, this.width + 10);
+        break;
+
+      case 4:
+        image(tim, this.x - 5, this.y - 10, this.width + 10, this.width + 10);
+        break;
+
+      default:
+        break;
+    }
   }
 
   jump() {
