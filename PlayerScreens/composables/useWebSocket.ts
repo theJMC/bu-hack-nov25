@@ -11,7 +11,8 @@ export function useWebSocket(gameCode: string) {
             break;
         case "nov.bedbugz.uk":
         case "dash.bedbugz.uk":
-            var hostname = `api.${window.location.hostname}`;
+        case "remote.dash.bedbugz.uk":
+            var hostname = `api.dash.bedbugz.uk`;
             break;
         default:
             var hostname = `${window.location.hostname}`;
