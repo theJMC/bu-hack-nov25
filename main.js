@@ -1,9 +1,17 @@
-let screenSpeed = 1;
+let screenSpeed = 0;
 let SHOW_TEST_PLAYER = true
 let font;
+let ben;
+let emili;
+let gernot;
+let tim;
 
 function preload() {
   font = loadFont('/assets/ZCOOLKuaiLe-Regular.ttf');
+  ben = loadImage('/assets/ben.png');
+  emili = loadImage('/assets/emili.png');
+  gernot = loadImage('/assets/gernot.png');
+  tim = loadImage('/assets/tim.png');
 }
 
 function setup() {
