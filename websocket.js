@@ -5,18 +5,10 @@ function newMsg(msgContent) {
     message.appendChild(content)
     messages.appendChild(message)
 }
-function jump(playerNum) {
-    console.log(`${playerNum} - Jump`)
-}
-function slide(playerNum) {
-    console.log(`${playerNum} - Slide`)
-}
-function shake(playerNum) {
-    console.log(`${playerNum} - Shake`)
-}
 
 window.onload = () => {
-    const hostname = 'nov.bedbugz.uk';
+    //const hostname = 'james-mbp-16.atlas-scoville.ts.net';
+    const hostname = window.location.hostname;
     var req = new XMLHttpRequest();
     req.open("GET", `https://${hostname}/game/new`, true);
     req.send();
@@ -38,13 +30,13 @@ window.onload = () => {
                     case 202: // Remote Event
                         switch (event.action.toLowerCase()) {
                             case "jump":
-                                jump(event["playerNum"])
+                                jumpPlayer(event["playerNum"])
                                 break;
                             case "slide":
-                                slide(event["playerNum"])
+                                slidePlayer(event["playerNum"])
                                 break;
                             case "shake":
-                                shake(event["playerNum"])
+                                clamberPlayer(event["playerNum"])
                                 break;
                         }
                         break;
