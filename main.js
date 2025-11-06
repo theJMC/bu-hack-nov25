@@ -1,9 +1,15 @@
 let screenSpeed = 1;
 let SHOW_TEST_PLAYER = true
+let font;
+
+function preload() {
+  font = loadFont('/assets/ZCOOLKuaiLe-Regular.ttf');
+}
 
 function setup() {
   createCanvas(min(800, windowWidth - 25), 600);
   textAlign(CENTER, CENTER);
+  textFont(font);
   textSize(32);
 
   // Game code
