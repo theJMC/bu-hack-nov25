@@ -8,7 +8,8 @@ function newMsg(msgContent) {
 
 window.onload = () => {
     //const hostname = 'james-mbp-16.atlas-scoville.ts.net';
-    const hostname = window.location.hostname;
+    var hostname = localStorage.getItem("api-server") || window.location.hostname;
+
     var req = new XMLHttpRequest();
     req.open("GET", `https://${hostname}/game/new`, true);
     req.send();
@@ -22,11 +23,12 @@ window.onload = () => {
             var ws = new WebSocket(`wss://${hostname}/ws/${game_code}/host`);
             ws.onmessage = (e) => {
                 const event = JSON.parse(e.data);
+                console.log(event)
                 // status code change
                 switch (event["code"]) {
-                    case 201: // Player Join
-                        document.getElementById('player-number').innerText = event["playerNum"]
-                        addPlayer(event["playerNum"])
+                    case 205: // Player Join
+                        addPlayer(event["newPlayerNum"])
+                        console.log(`Player ${event["newPlayerNum"]} joined the game.`)
                         break;
                     case 202: // Remote Event
                         switch (event.action.toLowerCase()) {
