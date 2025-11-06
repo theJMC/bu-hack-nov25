@@ -1,9 +1,15 @@
 let screenSpeed = 1;
 let SHOW_TEST_PLAYER = true
+let font;
+
+function preload() {
+  font = loadFont('/assets/ZCOOLKuaiLe-Regular.ttf');
+}
 
 function setup() {
   createCanvas(min(800, windowWidth - 25), 600);
   textAlign(CENTER, CENTER);
+  textFont(font);
   textSize(32);
 
   // Game code
@@ -23,7 +29,7 @@ function draw() {
     screenSpeed = min(screenSpeed + 0.01, 7);
   } else {
     fill('#ff6600');
-    text('All Players have died', width/2,height/2);
+    text('all players have died', width/2,height/2);
   }
 }
 
