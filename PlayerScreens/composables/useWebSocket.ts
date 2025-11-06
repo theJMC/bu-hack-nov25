@@ -7,7 +7,7 @@ export function useWebSocket(gameCode: string) {
   //TODO REMOVE LATER
    hostname = "nov.bedbugz.uk";
   // hostname = "james-mbp-16.atlas-scoville.ts.net";
-  const wsUrl = ref(`wss://${hostname}/ws/${gameCode}/player`)
+  const wsUrl = ref(`wss://${hostname}/ws/${gameCode.toLowerCase().trim()}/player`)
   console.log("hello",wsUrl)
   let websocket: WebSocket | null = null
   const wsConnected = ref(false)
