@@ -39,8 +39,6 @@ class Player {
     fill(this.playerColour);
     rect(this.x, this.y, this.width, this.height);
 
-    //image(ben, this.x, this.y, 50, 25);
-
     if (this.statusTimer > 0) {
       fill(this.statusColour);
       rect(this.x, this.y, this.width, this.height);
@@ -52,6 +50,27 @@ class Player {
       if (this.statusTimer <= 0) {
         this.statusColour = undefined
       }
+    }
+
+    switch (this.id) {
+      case 1:
+        image(gernot, this.x - 5, this.y - 10, this.width + 10, this.width + 10);
+        break;
+
+      case 2:
+        image(ben, this.x - 5, this.y - 10, this.width + 10, this.width + 10);
+        break;
+
+      case 3:
+        image(emili, this.x - 5, this.y - 10, this.width + 10, this.width + 10);
+        break;
+
+      case 4:
+        image(tim, this.x - 5, this.y - 10, this.width + 10, this.width + 10);
+        break;
+
+      default:
+        break;
     }
   }
 
