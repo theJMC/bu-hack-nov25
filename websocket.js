@@ -15,7 +15,7 @@ window.onload = () => {
         case "nov.bedbugz.uk":
         case "dash.bedbugz.uk":
         case "remote.dash.bedbugz.uk":
-            var hostname = `api.dash.bedbugz.uk`;
+            var hostname = `dash.bedbugz.uk`;
             break;
         default:
             var hostname = `${window.location.hostname}`;
