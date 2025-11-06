@@ -7,11 +7,11 @@ export function useWebSocket(gameCode: string) {
   // Select Backend Server
     switch (window.location.hostname) {
         case "localhost":
-            var hostname = localStorage.getItem("api-server") || `nov.bedbugz.uk`;
+            var hostname = localStorage.getItem("api-server") || `dash.bedbugz.uk`;
             break;
-        case "nov.bedbugz.uk":
         case "dash.bedbugz.uk":
         case "remote.dash.bedbugz.uk":
+        case "host.dash.bedbugz.uk":
             var hostname = `dash.bedbugz.uk`;
             break;
         default:
