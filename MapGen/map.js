@@ -70,7 +70,7 @@ function generateColumn(baseX) {
     for (let g = 0; g < i; g++) y -= gaps[g];
     y = constrain(y, topLimit, maxBottomY);
 
-    const jitterX = random(-20, 20);
+    const jitterX = random(-10, 10);
     const ledge = new Ledge(baseX + jitterX, y);
     ledge.length = LEDGE_WIDTH;
     OBSTACLES.push(ledge);
@@ -128,7 +128,6 @@ function startGeneration() {
   // --- SAFE STARTING PLATFORM: multiple ledges in a row ---
   const safeLedgeCount = 3;
   const safeLedgeWidth = LEDGE_WIDTH;
-  const safeLedgeHeight = LEDGE_HEIGHT * 2;
 
   // Center the safe platform vertically around mid-screen
   const startY = height / 2;
@@ -137,23 +136,16 @@ function startGeneration() {
   const totalSafeWidth = safeLedgeCount * safeLedgeWidth;
   const startX = width / 2 - totalSafeWidth / 2;
 
-  // for (let i = 0; i < safeLedgeCount; i++) {
-  //   const safeLedge = new Ledge(startX + i * safeLedgeWidth, startY);
-  //   safeLedge.length = safeLedgeWidth;
-  //   safeLedge.height = safeLedgeHeight;
-  //   safeLedge.fillColor = color(255, 215, 0, 220);
-  //   safeLedge.strokeColor = color(200, 150, 0);
-  //   OBSTACLES.push(safeLedge);
-  // }
-
   // --- Normal columns after safe start ---
-  const firstColumnX = startX + totalSafeWidth - COLUMN_GAP / 2;
+  const firstColumnX = startX + totalSafeWidth;
 
   // Calculate how many columns to fill the current screen width
   const visibleColumns = Math.ceil(width / (LEDGE_WIDTH + COLUMN_GAP)) + 1;
 
   for (let c = 0; c < visibleColumns; c++) {
-    const baseX = firstColumnX + c * (LEDGE_WIDTH + COLUMN_GAP) + random(-COLUMN_JITTER, COLUMN_JITTER);
+    const extraGap = (c < 2) ? 0 : random(-COLUMN_JITTER, COLUMN_JITTER);
+    const baseX = firstColumnX + c * (LEDGE_WIDTH + COLUMN_GAP) + extraGap;
+
     generateColumn(baseX);
   }
 }
