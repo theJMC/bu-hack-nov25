@@ -13,12 +13,12 @@ class Obstacle {
     this.x -= speed;
   }
 
-  collidesWith(player, width, height) {
+  collidesWith(player, width, height, x = this.x, y = this.y) {
     return (
-      player.x < this.x + width &&
-      player.x + player.width > this.x &&
-      player.y < this.y + height &&
-      player.y + player.height > this.y
+      player.x < x + width &&
+      player.x + player.width > x &&
+      player.y < y + height &&
+      player.y + player.height > y
     );
   }
 
