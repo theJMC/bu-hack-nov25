@@ -32,7 +32,7 @@ class Player {
 
     if (this.cannotSlow > 0) {
       // TODO update this effect to be clearer to the player
-      stroke(5)
+      stroke(15)
       this.cannotSlow--
     }
 
@@ -126,11 +126,11 @@ class Player {
 
   clamber() {
     this.cannotSlow = 20
-    if (this.speedMod > 0) this.speedMod = 0
+    if (this.speedMod > 0) this.speedMod = -0.1
   }
 
   slow() {
-    if (this.cannotSlow == 0) {
+    if (this.cannotSlow == 0 || this.speedMod > 0) {
       this.speedMod = 2;
       this.statusColour = color(0, 255, 0); // green
       this.statusTimer = 60;

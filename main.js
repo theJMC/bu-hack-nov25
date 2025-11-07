@@ -19,7 +19,7 @@ function preload() {
 }
 
 function setup() {
-  let canvas = createCanvas(windowWidth, 600);
+  let canvas = createCanvas(windowWidth - 25, 600);
   canvas.parent('game-container');
   textAlign(CENTER, CENTER);
   textFont(font);
