@@ -1,9 +1,10 @@
 function newMsg(msgContent) {
-    const messages = document.getElementById('messages');
-    const message = document.createElement('li');
-    const content = document.createTextNode(msgContent);
-    message.appendChild(content)
-    messages.appendChild(message)
+    console.log("New Message: " + msgContent)
+    // const messages = document.getElementById('messages');
+    // const message = document.createElement('li');
+    // const content = document.createTextNode(msgContent);
+    // message.appendChild(content)
+    // messages.appendChild(message)
 }
 
 window.onload = () => {
