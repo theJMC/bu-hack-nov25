@@ -21,7 +21,7 @@ class Spike extends Obstacle {
     this.fillColor = color(200, 40, 40);
     this.strokeColor = color(120, 20, 20);
 
-    this.count = int(random(1, 4));
+    this.count = int(random(1, 2));
     this.length = this.count * SPIKE_LENGTH * 2;
     this._initialized = true;
   }

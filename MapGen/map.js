@@ -76,7 +76,7 @@ function generateColumn(baseX) {
     OBSTACLES.push(ledge);
 
     // --- Spikes on ledge ---
-    if (random() < 0.25) {
+    if (random() < 0.2) {
       const maxSpikes = Math.floor(ledge.length / (SPIKE_LENGTH * 2));
       if (maxSpikes > 0) {
         const spikeCount = int(random(1, maxSpikes + 1));
