@@ -23,6 +23,7 @@ export function useWebSocket(gameCode: string) {
   let websocket: WebSocket | null = null
   const wsConnected = ref(false)
   const wsError = ref('')
+  const playerNum = ref(0);
 
   const connectWebSocket = () => {
     try {
@@ -44,7 +45,18 @@ export function useWebSocket(gameCode: string) {
       }
       
       websocket.onmessage = (event) => {
-        console.log('📨 Received:', event.data)
+        var jsonEvent = JSON.parse(event.data);
+        console.log(jsonEvent);
+        switch (jsonEvent.code) {
+          case 201: 
+            console.log(`Joined as Player ${jsonEvent.playerNum}`);
+            if (jsonEvent.playerNum !== undefined) {
+              playerNum.value = jsonEvent.playerNum;
+            }
+            break;
+          default:
+            console.log('📨 Received:', jsonEvent)
+        }
       }
     } catch (error) {
       wsError.value = 'Failed to create WebSocket connection'
@@ -89,6 +101,7 @@ export function useWebSocket(gameCode: string) {
     wsUrl,
     wsConnected,
     wsError,
+    playerNum,
     
     // Actions
     connectWebSocket,

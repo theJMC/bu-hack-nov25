@@ -4,7 +4,14 @@ import { useGestureDetection, type GestureData } from '../composables/useGesture
 import { useWebSocket } from '../composables/useWebSocket'
 import { useDevicePermissions } from '../composables/useDevicePermissions'
 
-import imgUrl from './assets/gernot.png'
+import gernot from './assets/gernot.png'
+import ben from './assets/ben.png'
+import emili from './assets/emili.png'
+import tim from './assets/tim.png'
+
+const lecturers = [
+  gernot, ben, emili, tim
+]
 
 const gameCode = ref('')
 const isJoining = ref(false)
@@ -13,23 +20,24 @@ const gameState = ref('join') // 'join' | 'connected'
 
 // Initialize WebSocket composable without game code initially
 let webSocketComposable: ReturnType<typeof useWebSocket> | null = null
-
-// Gesture detection
-const gestureEnabled = ref(false)
-const {
-  currentAction,
-  actionIntensity,
-  handleDeviceMotion,
-  handleDeviceOrientation,
-  setGestureCallback,
-  calibrateDevice,
-  getIsCalibrated
-} = useGestureDetection()
-
-// Reactive refs for WebSocket state
-const wsUrl = ref('')
-const wsConnected = ref(false)
-const wsError = ref('')
+  
+  // Gesture detection
+  const gestureEnabled = ref(false)
+  const {
+    currentAction,
+    actionIntensity,
+    handleDeviceMotion,
+    handleDeviceOrientation,
+    setGestureCallback,
+    calibrateDevice,
+    getIsCalibrated
+  } = useGestureDetection()
+  
+  // Reactive refs for WebSocket state
+  const wsUrl = ref('')
+  const wsConnected = ref(false)
+  const wsError = ref('')
+  const playerNum = ref(0)
 
 const {
   permissionStatus: _permissionStatus,
@@ -256,7 +264,7 @@ onUnmounted(() => {
 
         <div class="image-half">
             <figure>
-                <img :src="imgUrl" alt="Visualization of controls or gesture device">
+                <img :src="lecturers[playerNum]" alt="Visualization of controls or gesture device">
                 <figcaption>Visual guide for device control gestures.</figcaption>
             </figure>
         </div>

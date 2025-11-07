@@ -73,7 +73,7 @@ async def websocket_endpoint(websocket: WebSocket, game_id: str, mode: str | Non
     if is_host:
         await ConMan.broadcast({"code": 200, "content": "Host joined the game"})
     else:
-        await ConMan.broadcast({"code": 201, "content": f"Player {playerNum} joined the game"})
+        await ConMan.broadcast({"code": 200, "content": f"Player {playerNum} joined the game"})
     try:
         while True:
             data = await websocket.receive_json()
