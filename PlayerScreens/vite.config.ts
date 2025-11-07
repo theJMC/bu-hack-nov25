@@ -5,8 +5,8 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   server: {
-    allowedHosts: ['tom-laptop.tail6d16d1.ts.net'],
+    allowedHosts: ['tom-laptop.tail6d16d1.ts.net', 'james-mbp-16.atlas-scoville.ts.net'],
   },
-  base: '/remote/',
+  base: '/',
 
 })

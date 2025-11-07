@@ -1,5 +1,5 @@
 let screenSpeed = 0;
-let SHOW_TEST_PLAYER = true
+let SHOW_TEST_PLAYER = false
 let font;
 let ben;
 let emili;
@@ -15,10 +15,11 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(min(800, windowWidth - 25), 600);
+  let canvas = createCanvas(min(800, windowWidth - 25), 600);
+  canvas.parent('game-container');
   textAlign(CENTER, CENTER);
   textFont(font);
-  textSize(32);
+  textSize(42);
 
   // Game code
   startGeneration();
@@ -29,12 +30,12 @@ function setup() {
 }
 
 function draw() {
-  clear()
   if (PLAYERS.length != 0) {
+    clear()
     background(0);
     updateObstacles(screenSpeed);
     updatePlayers(screenSpeed)
-    screenSpeed = min(screenSpeed + 0.01, 7);
+    screenSpeed = min(screenSpeed + 0.0025, 10);
   } else {
     fill('#ff6600');
     text('all players have died', width/2,height/2);

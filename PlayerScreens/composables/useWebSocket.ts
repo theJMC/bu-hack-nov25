@@ -3,15 +3,27 @@ import type { GestureData } from './useGestureDetection'
 
 export function useWebSocket(gameCode: string) {
   console.log("WebSocket gameCode:", gameCode);
-  let hostname = window.location.hostname;
-  //TODO REMOVE LATER
-   hostname = "nov.bedbugz.uk";
-  // hostname = "james-mbp-16.atlas-scoville.ts.net";
-  const wsUrl = ref(`wss://${hostname}/ws/${gameCode}/player`)
+
+  // Select Backend Server
+    switch (window.location.hostname) {
+        case "localhost":
+            var hostname = localStorage.getItem("api-server") || `dash.bedbugz.uk`;
+            break;
+        case "dash.bedbugz.uk":
+        case "remote.dash.bedbugz.uk":
+        case "host.dash.bedbugz.uk":
+            var hostname = `dash.bedbugz.uk`;
+            break;
+        default:
+            var hostname = `${window.location.hostname}`;
+    }
+
+  const wsUrl = ref(`wss://${hostname}/ws/${gameCode.toLowerCase().trim()}/player`)
   console.log("hello",wsUrl)
   let websocket: WebSocket | null = null
   const wsConnected = ref(false)
   const wsError = ref('')
+  const playerNum = ref(0);
 
   const connectWebSocket = () => {
     try {
@@ -33,7 +45,18 @@ export function useWebSocket(gameCode: string) {
       }
       
       websocket.onmessage = (event) => {
-        console.log('📨 Received:', event.data)
+        var jsonEvent = JSON.parse(event.data);
+        console.log(jsonEvent);
+        switch (jsonEvent.code) {
+          case 201: 
+            console.log(`Joined as Player ${jsonEvent.playerNum}`);
+            if (jsonEvent.playerNum !== undefined) {
+              playerNum.value = jsonEvent.playerNum;
+            }
+            break;
+          default:
+            console.log('📨 Received:', jsonEvent)
+        }
       }
     } catch (error) {
       wsError.value = 'Failed to create WebSocket connection'
@@ -78,6 +101,7 @@ export function useWebSocket(gameCode: string) {
     wsUrl,
     wsConnected,
     wsError,
+    playerNum,
     
     // Actions
     connectWebSocket,

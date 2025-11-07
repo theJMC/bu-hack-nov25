@@ -31,6 +31,7 @@ class ConnectionManager:
             playerNum = len(self.players)
             await self.send_personal_message({"code": 201, "playerNum": playerNum,
                                               "colour": player_colours[playerNum - 1]}, websocket)
+            await self.broadcast({"code": 205, "content": f"Player {playerNum} joined the chat", "newPlayerNum": playerNum})
             return len(self.players)
 
     def disconnect_player(self, websocket: WebSocket):

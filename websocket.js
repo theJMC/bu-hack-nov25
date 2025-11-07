@@ -7,8 +7,21 @@ function newMsg(msgContent) {
 }
 
 window.onload = () => {
-    //const hostname = 'james-mbp-16.atlas-scoville.ts.net';
-    const hostname = window.location.hostname;
+    // Select Backend Server
+    switch (window.location.hostname) {
+        case "localhost":
+        case "127.0.0.1":
+            var hostname = localStorage.getItem("api-server") || `dash.bedbugz.uk`;
+            break;
+        case "dash.bedbugz.uk":
+        case "remote.dash.bedbugz.uk":
+        case "host.dash.bedbugz.uk":
+            var hostname = `dash.bedbugz.uk`;
+            break;
+        default:
+            var hostname = `${window.location.hostname}`;
+    }
+
     var req = new XMLHttpRequest();
     req.open("GET", `https://${hostname}/game/new`, true);
     req.send();
@@ -22,10 +35,12 @@ window.onload = () => {
             var ws = new WebSocket(`wss://${hostname}/ws/${game_code}/host`);
             ws.onmessage = (e) => {
                 const event = JSON.parse(e.data);
+                console.log(event)
                 // status code change
                 switch (event["code"]) {
-                    case 201: // Game Start
-                        document.getElementById('player-number').innerText = msg["playerNum"]
+                    case 205: // Player Join
+                        addPlayer(event["newPlayerNum"])
+                        console.log(`Player ${event["newPlayerNum"]} joined the game.`)
                         break;
                     case 202: // Remote Event
                         switch (event.action.toLowerCase()) {

@@ -3,8 +3,8 @@ const NUM_COLUMNS = 5;
 const MIN_LEDGES_PER_COLUMN = 2;
 const MAX_LEDGES_PER_COLUMN = 4;
 const LEDGE_WIDTH = 180;
-const COLUMN_GAP = 140;
-const COLUMN_JITTER = 40;
+const COLUMN_GAP = 110;
+const COLUMN_JITTER = 25;
 const V_GAP_MIN = 60;
 const V_GAP_MAX = 120;
 const BOTTOM_MARGIN = 8;
@@ -40,7 +40,7 @@ function generateCeilingVines(upToX) {
     vine.length = random(VINE_LENGTH * 0.8, VINE_LENGTH * 1.2);
     vine.fillColor = color(50, 180, 70, 180); 
     vine.strokeColor = color(30, 120, 40, 180);
-    CEILING_VINES.push(vine);
+    OBSTACLES.push(vine);
   }
   ceilingVineMaxX = upToX;
 }
@@ -99,6 +99,17 @@ function generateColumn(baseX) {
       vine.strokeColor = color(30, 120, 40, 180);
       OBSTACLES.push(vine);
     }
+  }
+
+    // --- Floor spikes (70% chance per column) ---
+  if (random() < 0.70) {
+    const floorY = height - BOTTOM_MARGIN; // base of screen
+    const maxSpikes = Math.floor(LEDGE_WIDTH / (SPIKE_LENGTH * 2));
+    const spikeCount = int(random(2, maxSpikes + 1));
+    const startX = baseX + random(-20, 20); // small jitter so they vary
+    const spike = new Spike(startX, floorY);
+    spike.count = spikeCount;
+    OBSTACLES.push(spike);
   }
 }
 
@@ -170,13 +181,6 @@ function updateObstacles(speed) {
     o.move(speed);
     o.draw();
     if (o.isOffScreen()) OBSTACLES.splice(i, 1);
-  }
-
-  for (let i = CEILING_VINES.length - 1; i >= 0; i--) {
-    const o = CEILING_VINES[i];
-    o.move(speed);
-    o.draw();
-    if (o.isOffScreen()) CEILING_VINES.splice(i, 1);
   }
 
   // Check if we need new columns

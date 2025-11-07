@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <title>BU Hack Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Jolly+Lodger&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
 
     <!-- obstacle base + subclasses (must load BEFORE map.js) -->
     <script src="MapGen/obstacles/obstacle-base.js"></script>
@@ -23,21 +23,35 @@
 
     <script src="main.js"></script>
     <script src="websocket.js"></script>
+
     <style>
       body {
         background-color: black;
       }
       h1 {
+        font-family: 'ZCOOL KuaiLe', cursive;
         font-size: 2em;
         color: #ff6600;
-        font-family: 'ZCOOL KuaiLe', cursive;
+      }
+      ul {
+        font-family: 'Courier New', Courier, monospace;
+        list-style-type: none;
+        padding: 0;
+        color: white
+      }
+      .centre {
+        display: flex;
+        margin: 0;
+        justify-content: center;
+        align-items: center;
       }
     </style>
   </head>
+
   <body>
-    <div><h1>Game Code: </h1><h2><span id="game-code"></span></h2></div>
-    <div id="game-container"></div>
-    <div>
+    <div class="centre"><h1>Game Code: <span id="game-code"></span></h1></div>
+    <div id="game-container" class="centre"></div>
+    <div class="centre">
       <ul id='messages'>
       </ul>
     </div>  
