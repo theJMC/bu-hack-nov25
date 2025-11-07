@@ -3,8 +3,8 @@ const NUM_COLUMNS = 5;
 const MIN_LEDGES_PER_COLUMN = 2;
 const MAX_LEDGES_PER_COLUMN = 4;
 const LEDGE_WIDTH = 180;
-const COLUMN_GAP = 140;
-const COLUMN_JITTER = 40;
+const COLUMN_GAP = 110;
+const COLUMN_JITTER = 25;
 const V_GAP_MIN = 60;
 const V_GAP_MAX = 120;
 const BOTTOM_MARGIN = 8;
@@ -99,6 +99,17 @@ function generateColumn(baseX) {
       vine.strokeColor = color(30, 120, 40, 180);
       OBSTACLES.push(vine);
     }
+  }
+
+    // --- Floor spikes (70% chance per column) ---
+  if (random() < 0.70) {
+    const floorY = height - BOTTOM_MARGIN; // base of screen
+    const maxSpikes = Math.floor(LEDGE_WIDTH / (SPIKE_LENGTH * 2));
+    const spikeCount = int(random(2, maxSpikes + 1));
+    const startX = baseX + random(-20, 20); // small jitter so they vary
+    const spike = new Spike(startX, floorY);
+    spike.count = spikeCount;
+    OBSTACLES.push(spike);
   }
 }
 
