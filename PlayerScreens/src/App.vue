@@ -63,6 +63,7 @@ const joinGame = async () => {
     wsUrl.value = webSocketComposable.wsUrl.value
     wsConnected.value = webSocketComposable.wsConnected.value
     wsError.value = webSocketComposable.wsError.value
+    playerNum.value = webSocketComposable.playerNum.value
     
     webSocketComposable.connectWebSocket()
     
@@ -263,7 +264,7 @@ onUnmounted(() => {
         </div>
 
         <div class="image-half">
-            <figure>
+            <figure v-if="playerNum != null">
                 <img :src="lecturers[playerNum]" alt="Visualization of controls or gesture device">
                 <figcaption>Visual guide for device control gestures.</figcaption>
             </figure>
