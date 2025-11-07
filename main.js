@@ -45,7 +45,7 @@ function draw() {
     background(0);
     updateObstacles(screenSpeed);
     updatePlayers(screenSpeed)
-    screenSpeed = min(screenSpeed + 0.0025, 10);
+    screenSpeed = min(screenSpeed + 0.0045, 10);
   } else {
     fill('#ff6600');
     text('all players have died... rip', width/2,height/2);
