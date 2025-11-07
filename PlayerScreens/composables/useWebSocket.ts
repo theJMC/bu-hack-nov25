@@ -15,7 +15,7 @@ export function useWebSocket(gameCode: string) {
             var hostname = `dash.bedbugz.uk`;
             break;
         default:
-            var hostname = `${window.location.hostname}`;
+            var hostname = `dash.bedbugz.uk`;
     }
 
   const wsUrl = ref(`wss://${hostname}/ws/${gameCode.toLowerCase().trim()}/player`)
