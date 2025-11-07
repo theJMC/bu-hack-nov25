@@ -41,6 +41,7 @@ class Spike extends Obstacle {
         this.x + offset + (SPIKE_LENGTH * 2),
         this.y
       );
+      image(spike, this.x + offset, this.y - SPIKE_HEIGHT, SPIKE_LENGTH * 2, SPIKE_HEIGHT);
     }
   }
 
