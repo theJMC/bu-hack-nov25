@@ -1,10 +1,11 @@
-let screenSpeed = 0;
+let screenSpeed = 5;
 let SHOW_TEST_PLAYER = false
 let font;
 let ben;
 let emili;
 let gernot;
 let tim;
+let spike;
 
 let signalGameStart = false
 let gameStarted = false
@@ -23,6 +24,7 @@ function preload() {
   emili = loadImage('/assets/lecturers/emili.png');
   gernot = loadImage('/assets/lecturers/gernot.png');
   tim = loadImage('/assets/lecturers/tim.png');
+  spike = loadImage('/assets/map/spike.png')
 }
 
 function setup() {
@@ -49,10 +51,9 @@ function draw() {
   }
   if (PLAYERS.length != 0) {
     clear()
-    background(0);
     updateObstacles(screenSpeed);
     updatePlayers(screenSpeed)
-    screenSpeed = min(screenSpeed + 0.0025, 10);
+    screenSpeed = min(screenSpeed + 0.0045, 10);
   } else {
     fill('#ff6600');
     text('all players have died... rip', width/2,height/2);

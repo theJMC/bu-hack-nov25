@@ -3,7 +3,7 @@ const NUM_COLUMNS = 5;
 const MIN_LEDGES_PER_COLUMN = 2;
 const MAX_LEDGES_PER_COLUMN = 4;
 const LEDGE_WIDTH = 180;
-const COLUMN_GAP = 110;
+const COLUMN_GAP = 40;
 const COLUMN_JITTER = 25;
 const V_GAP_MIN = 60;
 const V_GAP_MAX = 120;
@@ -52,7 +52,7 @@ function generateColumn(baseX) {
   const ledgeCount = int(random(MIN_LEDGES_PER_COLUMN, MAX_LEDGES_PER_COLUMN + 1));
   const topLimit = height * 0.2;
   const maxBottomY = height - LEDGE_HEIGHT - BOTTOM_MARGIN;
-
+  generateCeilingVines(baseX + COLUMN_GAP);
   const gaps = [];
   let totalColumnHeight = ledgeCount * LEDGE_HEIGHT;
   for (let i = 0; i < ledgeCount - 1; i++) {
@@ -123,7 +123,7 @@ function startGeneration() {
   ceilingVineMaxX = 0;
 
   // Ceiling vines for initial screen
-  generateCeilingVines(width * NUM_COLUMNS);
+  //generateCeilingVines(width * NUM_COLUMNS);
 
   // --- SAFE STARTING PLATFORM: multiple ledges in a row ---
   const safeLedgeCount = 3;
@@ -137,14 +137,14 @@ function startGeneration() {
   const totalSafeWidth = safeLedgeCount * safeLedgeWidth;
   const startX = width / 2 - totalSafeWidth / 2;
 
-  for (let i = 0; i < safeLedgeCount; i++) {
-    const safeLedge = new Ledge(startX + i * safeLedgeWidth, startY);
-    safeLedge.length = safeLedgeWidth;
-    safeLedge.height = safeLedgeHeight;
-    safeLedge.fillColor = color(255, 215, 0, 220);
-    safeLedge.strokeColor = color(200, 150, 0);
-    OBSTACLES.push(safeLedge);
-  }
+  // for (let i = 0; i < safeLedgeCount; i++) {
+  //   const safeLedge = new Ledge(startX + i * safeLedgeWidth, startY);
+  //   safeLedge.length = safeLedgeWidth;
+  //   safeLedge.height = safeLedgeHeight;
+  //   safeLedge.fillColor = color(255, 215, 0, 220);
+  //   safeLedge.strokeColor = color(200, 150, 0);
+  //   OBSTACLES.push(safeLedge);
+  // }
 
   // --- Normal columns after safe start ---
   const firstColumnX = startX + totalSafeWidth;
