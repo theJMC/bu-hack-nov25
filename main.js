@@ -6,6 +6,10 @@ let emili;
 let gernot;
 let tim;
 
+let signalGameStart = false
+let gameStarted = false
+let deadmessageShown = false
+
 function preload() {
   font = loadFont('/assets/ZCOOLKuaiLe-Regular.ttf');
   ben = loadImage('/assets/lecturers/ben.png');
@@ -15,7 +19,7 @@ function preload() {
 }
 
 function setup() {
-  let canvas = createCanvas(min(800, windowWidth - 25), 600);
+  let canvas = createCanvas(windowWidth, 600);
   canvas.parent('game-container');
   textAlign(CENTER, CENTER);
   textFont(font);
@@ -30,6 +34,12 @@ function setup() {
 }
 
 function draw() {
+  if (!signalGameStart) {
+    fill('#ff6600');
+    text('waiting for players to join...', width/2,height/2);
+    text('press space on your host to start', width/2,height/2+100);
+    return;
+  }
   if (PLAYERS.length != 0) {
     clear()
     background(0);
@@ -38,7 +48,12 @@ function draw() {
     screenSpeed = min(screenSpeed + 0.0025, 10);
   } else {
     fill('#ff6600');
-    text('all players have died', width/2,height/2);
+    text('all players have died... rip', width/2,height/2);
+    if (!deadmessageShown) {
+      deadmessageShown = true;
+      newMsg('All Players are dead - reload the page or press space to restart the game.');
+    }
+    
   }
 }
 
@@ -47,6 +62,14 @@ function draw() {
  */
 document.addEventListener("keydown", (event) => {
   switch (event.key.toLowerCase()) {
+    case " ":
+      if (deadmessageShown) {
+        location.reload();
+      } else {
+        console.log("starting game")
+        signalGameStart = true;
+      }
+      break;
     case "arrowup":
     case "w":
     case " ":
