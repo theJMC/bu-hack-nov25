@@ -45,8 +45,11 @@ class Spike extends Obstacle {
   }
 
   collidesWith(player) {
-    if (super.collidesWith(player, this.length, this.height)) {
-      player.hurt()
+    const hitboxY = this.y - this.height;
+    const hitboxHeight = this.height * 1.3;
+
+    if (super.collidesWith(player, this.length, hitboxHeight, this.x, hitboxY)) {
+      player.hurt();
     }
   }
 
