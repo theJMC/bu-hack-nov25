@@ -73,6 +73,8 @@ const joinGame = async () => {
       isConnected.value = true
       gameState.value = 'connected'
       isJoining.value = false
+      playerNum.value = webSocketComposable.playerNum.value -1
+      console.log("player num:", playerNum.value);
       
       // Update our reactive refs
       wsConnected.value = webSocketComposable.wsConnected.value
@@ -263,9 +265,9 @@ onUnmounted(() => {
         </div>
 
         <div class="image-half">
-            <figure>
+            <figure v-if="playerNum != null">
                 <img :src="lecturers[playerNum]" alt="Visualization of controls or gesture device">
-                <figcaption>Visual guide for device control gestures.</figcaption>
+                <figcaption>Player {{ playerNum + 1 }}</figcaption>
             </figure>
         </div>
       </div>
