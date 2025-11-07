@@ -29,7 +29,8 @@ class Vine extends Obstacle {
 
     noStroke();
     fill(this.fillColor);
-    rect(this.x, this.y, this.length, this.height);
+    //rect(this.x, this.y, this.length, this.height);
+    image(vine, this.x, this.y, this.length, this.height);
   }
 
   collidesWith(player) {

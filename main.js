@@ -6,6 +6,9 @@ let emili;
 let gernot;
 let tim;
 let spike;
+let vine;
+let tile;
+let bubbles;
 
 let signalGameStart = false
 let gameStarted = false
@@ -25,6 +28,9 @@ function preload() {
   gernot = loadImage('/assets/lecturers/gernot.png');
   tim = loadImage('/assets/lecturers/tim.png');
   spike = loadImage('/assets/map/spike.png')
+  tile = loadImage('/assets/map/tile.png')
+  vine = loadImage('/assets/map/vine.png')
+  bubbles = loadImage('/assets/map/bubbles.png')
 }
 
 function setup() {
