@@ -15,7 +15,8 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(min(800, windowWidth - 25), 600);
+  let canvas = createCanvas(min(800, windowWidth - 25), 600);
+  canvas.parent('game-container');
   textAlign(CENTER, CENTER);
   textFont(font);
   textSize(32);

@@ -10,6 +10,7 @@ window.onload = () => {
     // Select Backend Server
     switch (window.location.hostname) {
         case "localhost":
+        case "127.0.0.1":
             var hostname = localStorage.getItem("api-server") || `dash.bedbugz.uk`;
             break;
         case "dash.bedbugz.uk":
