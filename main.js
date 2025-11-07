@@ -19,7 +19,7 @@ function setup() {
   canvas.parent('game-container');
   textAlign(CENTER, CENTER);
   textFont(font);
-  textSize(32);
+  textSize(42);
 
   // Game code
   startGeneration();
@@ -30,8 +30,8 @@ function setup() {
 }
 
 function draw() {
-  clear()
   if (PLAYERS.length != 0) {
+    clear()
     background(0);
     updateObstacles(screenSpeed);
     updatePlayers(screenSpeed)
