@@ -4,6 +4,8 @@ import { useGestureDetection, type GestureData } from '../composables/useGesture
 import { useWebSocket } from '../composables/useWebSocket'
 import { useDevicePermissions } from '../composables/useDevicePermissions'
 
+import imgUrl from './assets/gernot.png'
+
 const gameCode = ref('')
 const isJoining = ref(false)
 const isConnected = ref(false)
@@ -232,20 +234,31 @@ onUnmounted(() => {
     </div>
 
     <div class="controls-info">
-      <div class="controls-header">
-        <h3 class="controls-title">
-          {{ gestureEnabled ? 'Gesture Controls' : 'Tap Controls' }}
-        </h3>
-        <div v-if="gestureEnabled && currentAction" class="current-action">
-          {{ currentAction }} - {{ actionIntensity }}%
+      <div class="split-container">
+        <div class="control-info-half">
+            <div class="controls-header">
+                <h3 class="controls-title">
+                  {{ gestureEnabled ? 'Gesture Controls' : 'Tap Controls' }}
+                </h3>
+                <div v-if="gestureEnabled && currentAction" class="current-action">
+                  {{ currentAction }} - {{ actionIntensity }}%
+                </div>
+                <div v-if="gestureEnabled" class="calibration-status">
+                  {{ getIsCalibrated() ? '✅ Calibrated' : '⏳ Move device to calibrate' }}
+                </div>
+                <div class="connection-status">
+                  <span :class="['status-text', { connected: wsConnected }]">
+                    {{ wsConnected ? '🟢 Connected' : '🔴 Disconnected' }}
+                  </span>
+                </div>
+            </div>
         </div>
-        <div v-if="gestureEnabled" class="calibration-status">
-          {{ getIsCalibrated() ? '✅ Calibrated' : '⏳ Move device to calibrate' }}
-        </div>
-        <div class="connection-status">
-          <span :class="['status-text', { connected: wsConnected }]">
-            {{ wsConnected ? '🟢 Connected' : '🔴 Disconnected' }}
-          </span>
+
+        <div class="image-half">
+            <figure>
+                <img :src="imgUrl" alt="Visualization of controls or gesture device">
+                <figcaption>Visual guide for device control gestures.</figcaption>
+            </figure>
         </div>
       </div>
 
@@ -695,6 +708,54 @@ onUnmounted(() => {
   color: white;
   font-size: 0.8rem;
   opacity: 0.7;
+}
+
+/* 1. Main Container Setup */
+.split-container {
+    display: flex; /* Enables flexible layout */
+    width: 100%; /* Use full available width or set a fixed width (e.g., 800px) */
+    /* Optional: Set a minimum height if the left side content is very short */
+    /* min-height: 250px; */ 
+}
+
+/* 2. Styling for Both Halves */
+.control-info-half,
+.image-half {
+    width: 50%; /* Key: Makes each side exactly half */
+    padding: 15px;
+    box-sizing: border-box; /* Includes padding within the 50% width */
+}
+
+/* 3. Styling for the Controls Content (Left) */
+.control-info-half {
+    /* Optional: Align items within your controls-header if needed */
+}
+
+/* 4. Styling for the Image Side (Right) */
+.image-half {
+    display: flex; /* Use flex to easily center the image/figure */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* 5. Image and Caption Specific Styles */
+.image-half figure {
+    margin: 0; /* Remove default figure margin */
+    width: 50%;
+}
+
+.image-half img {
+    max-width: 90%; /* Keep the image slightly smaller than the container */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.image-half figcaption {
+    margin-top: 10px;
+    font-size: 0.85em;
+    color: #666;
 }
 
 /* Animations */
