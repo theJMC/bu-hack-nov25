@@ -147,8 +147,12 @@ function startGeneration() {
   // }
 
   // --- Normal columns after safe start ---
-  const firstColumnX = startX + totalSafeWidth;
-  for (let c = 0; c < NUM_COLUMNS; c++) {
+  const firstColumnX = startX + totalSafeWidth - COLUMN_GAP / 2;
+
+  // Calculate how many columns to fill the current screen width
+  const visibleColumns = Math.ceil(width / (LEDGE_WIDTH + COLUMN_GAP)) + 1;
+
+  for (let c = 0; c < visibleColumns; c++) {
     const baseX = firstColumnX + c * (LEDGE_WIDTH + COLUMN_GAP) + random(-COLUMN_JITTER, COLUMN_JITTER);
     generateColumn(baseX);
   }
@@ -183,8 +187,13 @@ function updateObstacles(speed) {
     if (o.isOffScreen()) OBSTACLES.splice(i, 1);
   }
 
-  // Check if we need new columns
-  const columnObstacleCount = OBSTACLES.filter(o => !(o instanceof Vine && o.y === 0)).length;
-  const desiredCount = NUM_COLUMNS * ((MIN_LEDGES_PER_COLUMN + MAX_LEDGES_PER_COLUMN) / 2);
-  if (columnObstacleCount < desiredCount) generateNew();
+  let rightmostX = 0;
+  for (const o of OBSTACLES) {
+    if (!(o instanceof Vine && o.y === 0) && o.x > rightmostX) rightmostX = o.x;
+  }
+
+  while (rightmostX < PLAYERS[0].x + width) {
+    generateNew();
+    rightmostX += LEDGE_WIDTH + COLUMN_GAP; // approximate increment
+  }
 }

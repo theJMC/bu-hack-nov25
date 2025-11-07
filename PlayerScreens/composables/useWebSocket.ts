@@ -37,6 +37,10 @@ export function useWebSocket(gameCode: string) {
       websocket.onclose = () => {
         wsConnected.value = false
         console.log('❌ WebSocket disconnected')
+        alert("Game has ended :( Returning to home screen.");
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
       }
       
       websocket.onerror = (error) => {
@@ -54,6 +58,13 @@ export function useWebSocket(gameCode: string) {
               playerNum.value = jsonEvent.playerNum;
             }
             break;
+          case 419:
+            alert("Game has ended :( Returning to home screen.");
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+            break;
+
           default:
             console.log('📨 Received:', jsonEvent)
         }
