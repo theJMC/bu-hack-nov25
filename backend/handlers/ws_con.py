@@ -42,7 +42,7 @@ class ConnectionManager:
 
     async def disconnect_host(self):
         self.host = None
-        await self.broadcast({"code": 200, "content": "Host disconnected. The Game is now over"})
+        await self.broadcast({"code": 419, "content": "Host disconnected. The Game is now over"})
         self.players.clear()
 
     async def send_personal_message(self, message: dict, websocket: WebSocket):
