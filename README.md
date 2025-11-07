@@ -13,14 +13,14 @@ Play with your friends and see who can last the longest in this one-screen multi
 - Sound Effects!
 
 ## How to Play
-[Join a hosted game on your phone](https://remote.dash.bedbugz.uk/)
-
 Use gesture controls to control your lecturer’s actions:
 - Jump — leap over spikes
 - Clamber — climb through vines
 - Slide — speed up when you’re falling behind
 
 Avoid obstacles, keep up with the group, and outlast your colleagues! The last lecturer standing wins
+
+[Join a hosted game on your phone](https://remote.dash.bedbugz.uk/)
 
 ### Dependencies
 * Using p5.js
