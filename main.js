@@ -10,6 +10,13 @@ let signalGameStart = false
 let gameStarted = false
 let deadmessageShown = false
 
+const playerSounds = [
+  new Audio('/assets/sounds/gernot.wav'),
+  new Audio('/assets/sounds/ben.wav'),
+  new Audio('/assets/sounds/emili.wav'),
+  new Audio('/assets/sounds/tim.wav'),
+]
+
 function preload() {
   font = loadFont('/assets/ZCOOLKuaiLe-Regular.ttf');
   ben = loadImage('/assets/lecturers/ben.png');
@@ -55,6 +62,11 @@ function draw() {
     }
     
   }
+}
+
+function playSound(playerNum) {
+  playerSounds[playerNum - 1].currentTime = 0;
+  playerSounds[playerNum - 1].play();
 }
 
 /**

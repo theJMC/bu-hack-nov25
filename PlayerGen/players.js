@@ -81,4 +81,5 @@ function addPlayer(id) {
     //const player = new Player(0, 0, id);
     const player = new Player(width * 0.3, height - PLAYER_HEIGHT, id);
     PLAYERS.push(player);
+    playSound(id);
 }
