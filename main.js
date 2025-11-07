@@ -42,7 +42,6 @@ function draw() {
   }
   if (PLAYERS.length != 0) {
     clear()
-    background(0);
     updateObstacles(screenSpeed);
     updatePlayers(screenSpeed)
     screenSpeed = min(screenSpeed + 0.0025, 10);
