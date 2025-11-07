@@ -5,6 +5,7 @@ let ben;
 let emili;
 let gernot;
 let tim;
+let spike;
 
 let signalGameStart = false
 let gameStarted = false
@@ -16,6 +17,7 @@ function preload() {
   emili = loadImage('/assets/lecturers/emili.png');
   gernot = loadImage('/assets/lecturers/gernot.png');
   tim = loadImage('/assets/lecturers/tim.png');
+  spike = loadImage('/assets/map/spike.png')
 }
 
 function setup() {
