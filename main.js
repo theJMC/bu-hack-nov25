@@ -9,6 +9,7 @@ let spike;
 let vine;
 let tile;
 let bubbles;
+let background;
 
 let signalGameStart = false
 let gameStarted = false
@@ -31,6 +32,7 @@ function preload() {
   tile = loadImage('/assets/map/tile.png')
   vine = loadImage('/assets/map/vine.png')
   bubbles = loadImage('/assets/map/bubbles.png')
+  background = loadImage('/assets/map/seatemple.png')
 }
 
 function setup() {
@@ -57,6 +59,7 @@ function draw() {
   }
   if (PLAYERS.length != 0) {
     clear()
+    image(background, 0 , 0, width, height);
     updateObstacles(screenSpeed);
     updatePlayers(screenSpeed)
     screenSpeed = min(screenSpeed + 0.0045, 10);
