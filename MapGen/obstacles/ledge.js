@@ -27,7 +27,8 @@ class Ledge extends Obstacle {
 
     noStroke();
     fill(this.fillColor);
-    rect(this.x, this.y, this.length, this.height);
+    //rect(this.x, this.y, this.length, this.height);
+    image(tile, this.x, this.y, this.length, this.height);
   }
 
   collidesWith(player) {

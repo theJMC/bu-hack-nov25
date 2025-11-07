@@ -1,4 +1,4 @@
-let screenSpeed = 0;
+let screenSpeed = 5;
 let SHOW_TEST_PLAYER = false
 let font;
 let ben;
@@ -6,10 +6,20 @@ let emili;
 let gernot;
 let tim;
 let spike;
+let vine;
+let tile;
+let bubbles;
 
 let signalGameStart = false
 let gameStarted = false
 let deadmessageShown = false
+
+const playerSounds = [
+  new Audio('/assets/sounds/gernot.wav'),
+  new Audio('/assets/sounds/ben.wav'),
+  new Audio('/assets/sounds/emili.wav'),
+  new Audio('/assets/sounds/tim.wav'),
+]
 
 function preload() {
   font = loadFont('/assets/ZCOOLKuaiLe-Regular.ttf');
@@ -18,6 +28,9 @@ function preload() {
   gernot = loadImage('/assets/lecturers/gernot.png');
   tim = loadImage('/assets/lecturers/tim.png');
   spike = loadImage('/assets/map/spike.png')
+  tile = loadImage('/assets/map/tile.png')
+  vine = loadImage('/assets/map/vine.png')
+  bubbles = loadImage('/assets/map/bubbles.png')
 }
 
 function setup() {
@@ -56,6 +69,11 @@ function draw() {
     }
     
   }
+}
+
+function playSound(playerNum) {
+  playerSounds[playerNum - 1].currentTime = 0;
+  playerSounds[playerNum - 1].play();
 }
 
 /**
