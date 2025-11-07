@@ -126,7 +126,7 @@ class Player {
 
   clamber() {
     this.cannotSlow = 20
-    if (this.speedMod > 0) this.speedMod = 0
+    if (this.speedMod > 0) this.speedMod = -0.1
   }
 
   slow() {
