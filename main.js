@@ -1,4 +1,4 @@
-let screenSpeed = 0;
+let screenSpeed = 5;
 let SHOW_TEST_PLAYER = false
 let font;
 let ben;
